@@ -17,7 +17,7 @@ export default function AuthLayout({
             {/* <!-- ===== Common Grid Shape Start ===== --> */}
             <GridShape />
             <div className="flex flex-col items-center max-w-xs">
-              <Link to="/" className="block mb-4">
+              {/* <Link to="/" className="block mb-4">
                 <img
                   width={231}
                   height={48}
@@ -27,7 +27,7 @@ export default function AuthLayout({
               </Link>
               <p className="text-center text-gray-400 dark:text-white/60">
                 Free and Open-Source Tailwind CSS Admin Dashboard Template
-              </p>
+              </p> */}
             </div>
           </div>
         </div>

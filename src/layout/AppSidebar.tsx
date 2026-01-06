@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router";
 
-// Assume these icons are imported from an icon library
 import {
   BoxCubeIcon,
   CalenderIcon,
@@ -17,6 +16,8 @@ import {
 } from "../icons";
 import { useSidebar } from "../context/SidebarContext";
 import SidebarWidget from "./SidebarWidget";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 type NavItem = {
   name: string;
@@ -25,7 +26,13 @@ type NavItem = {
   subItems?: { name: string; path: string; pro?: boolean; new?: boolean }[];
 };
 
-const navItems: NavItem[] = [
+
+const AppSidebar: React.FC = () => {
+  const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
+  const location = useLocation();const auth = useContext(AuthContext);
+  const isAdmin = auth?.user?.role === "ADMIN";
+
+  const navItems: NavItem[] = [
   {
     icon: <GridIcon />,
     name: "Dashboard",
@@ -36,11 +43,25 @@ const navItems: NavItem[] = [
     name: "Calendar",
     path: "/calendar",
   },
-  {
-    icon: <UserCircleIcon />,
-    name: "User Profile",
-    path: "/profile",
-  },
+  ...(isAdmin
+    ? [
+        {
+          icon: <UserCircleIcon />,
+          name: "Users",
+          subItems: [
+            {
+              name: "Pending Users",
+              path: "/admin/users/pending",
+            },
+            {
+              name: "All Users",
+              path: "/admin/users",
+            },
+          ],
+        },
+      ]
+    : []),
+
   {
     name: "Forms",
     icon: <ListIcon />,
@@ -91,10 +112,6 @@ const othersItems: NavItem[] = [
     ],
   },
 ];
-
-const AppSidebar: React.FC = () => {
-  const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
-  const location = useLocation();
 
   const [openSubmenu, setOpenSubmenu] = useState<{
     type: "main" | "others";

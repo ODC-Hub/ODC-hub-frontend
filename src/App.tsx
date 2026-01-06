@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router";
+import { Routes, Route } from "react-router-dom";
 import SignIn from "./pages/AuthPages/SignIn";
 import SignUp from "./pages/AuthPages/SignUp";
 import NotFound from "./pages/OtherPage/NotFound";
@@ -18,58 +18,82 @@ import Blank from "./pages/Blank";
 import AppLayout from "./layout/AppLayout";
 import { ScrollToTop } from "./components/common/ScrollToTop";
 import Home from "./pages/Dashboard/Home";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import TestApi from "./pages/TestApi";
 import UsersFromDb from "./pages/UsersFromDb";
 
+import ActivateAccount from "./pages/AuthPages/ActivateAccount";
+
+import PendingUsersPage from "./pages/User/PendingUsersPage";
+import UserManagementPage from "./pages/User/UserManagementPage";
+import AccountSettings from "./pages/AuthPages/AccountSettings";
+import ResetPasswordPage from "./components/auth/ResetPasswordPage";
+import ForgotPasswordPage from "./components/auth/ForgotPasswordPage";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
+
 export default function App() {
   return (
     <>
-      <Router>
         <ScrollToTop />
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          pauseOnHover
+          theme="light"
+          className="toast-container"
+
+        />
         <Routes>
           {/* Dashboard Layout */}
-          <Route element={<AppLayout />}>
-            <Route index path="/" element={<Home />} />
+          <Route element={<ProtectedRoute />}>
+            <Route element={<AppLayout />}>
+              <Route index path="/" element={<Home />} />
 
-            {/* Others Page */}
-            <Route path="/profile" element={<UserProfiles />} />
-            <Route path="/calendar" element={<Calendar />} />
-            <Route path="/blank" element={<Blank />} />
+              {/* Others Page */}
+              <Route path="/profile" element={<UserProfiles />} />
+              <Route path="/calendar" element={<Calendar />} />
+              <Route path="/blank" element={<Blank />} />
 
-            {/* Forms */}
-            <Route path="/form-elements" element={<FormElements />} />
+              {/* Forms */}
+              <Route path="/form-elements" element={<FormElements />} />
 
-            {/* Tables */}
-            <Route path="/basic-tables" element={<BasicTables />} />
+              {/* Tables */}
+              <Route path="/basic-tables" element={<BasicTables />} />
 
-            {/* Ui Elements */}
-            <Route path="/alerts" element={<Alerts />} />
-            <Route path="/avatars" element={<Avatars />} />
-            <Route path="/badge" element={<Badges />} />
-            <Route path="/buttons" element={<Buttons />} />
-            <Route path="/images" element={<Images />} />
-            <Route path="/videos" element={<Videos />} />
+              {/* Ui Elements */}
+              <Route path="/alerts" element={<Alerts />} />
+              <Route path="/avatars" element={<Avatars />} />
+              <Route path="/badge" element={<Badges />} />
+              <Route path="/buttons" element={<Buttons />} />
+              <Route path="/images" element={<Images />} />
+              <Route path="/videos" element={<Videos />} />
 
-            {/* Charts */}
-            <Route path="/line-chart" element={<LineChart />} />
-            <Route path="/bar-chart" element={<BarChart />} />
+              {/* Charts */}
+              <Route path="/line-chart" element={<LineChart />} />
+              <Route path="/bar-chart" element={<BarChart />} />
+
+              <Route path="/admin/users/pending" element={<PendingUsersPage />} />
+              <Route path="/admin/users" element={<UserManagementPage />} />
+              
+              <Route path="/account-settings" element={<AccountSettings />} />
+            </Route>
           </Route>
 
-          {/* Auth Layout */}
+          {/* PUBLIC ROUTES */}
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
-
+          <Route path="/activate" element={<ActivateAccount />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+        
           {/* Fallback Route */}
           <Route path="*" element={<NotFound />} />
-
-          <Route path="/test-api" element={<TestApi />} />
-
-          <Route path="/users-db" element={<UsersFromDb />} />
-
-
         </Routes>
-      </Router>
     </>
   );
 }

@@ -776,3 +776,20 @@ span.flatpickr-weekday,
 .simplebar-scrollbar.simplebar-visible:before {
   @apply opacity-100;
 }
+
+.toast-container {
+  z-index: 99999 !important;
+}
+
+.Toastify__toast-container--top-right {
+  top: 80px !important;
+  /* adjust if navbar height changes */
+  right: 1.25rem !important;
+}
+
+.Toastify__toast {
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  font-size: 14px;
+}
+
