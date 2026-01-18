@@ -22,32 +22,30 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchMe = async () => {
-      try {
-        const res = await api.get("/auth/me");
-        setUser(res.data);
-      } catch(err) {
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchMe();
-  }, []);
-
+  
   const login = (user: AuthUser) => {
     setUser(user);
   };
 
   const logout = async () => {
+    await api.post("/auth/logout");
+    setUser(null);
+  };
+
+  useEffect(() => {
+  const fetchMe = async () => {
     try {
-      await api.post("/auth/logout");
-    } finally {
+      const res = await api.get("/auth/me");
+      setUser(res.data);
+    } catch {
       setUser(null);
+    } finally {
+      setLoading(false);
     }
   };
+
+  fetchMe();
+}, []);
 
   return (
     <AuthContext.Provider value={{ user, loading, login, logout }}>

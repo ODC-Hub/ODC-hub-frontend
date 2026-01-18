@@ -2,49 +2,41 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL: "http://localhost:8080/api",
-  withCredentials: true,
+  withCredentials: true
 });
 
 let isRefreshing = false;
-let queue: (() => void)[] = [];
-
-const processQueue = () => {
-  queue.forEach(cb => cb());
-  queue = [];
-};
+let refreshPromise: Promise<void> | null = null;
 
 api.interceptors.response.use(
-  response => response,
+  res => res,
   async error => {
     const originalRequest = error.config;
 
     if (
       error.response?.status === 401 &&
-      !originalRequest._retry
+      !originalRequest._retry &&
+      !originalRequest.url.includes("/auth/login") &&
+      !originalRequest.url.includes("/auth/refresh")
     ) {
       originalRequest._retry = true;
 
-      // If refresh already happening, wait
-      if (isRefreshing) {
-        return new Promise(resolve => {
-          queue.push(() => resolve(api(originalRequest)));
-        });
+      if (!isRefreshing) {
+        isRefreshing = true;
+        refreshPromise = api
+          .post("/auth/refresh")
+          .then(() => {})   // convert to Promise<void>
+          .finally(() => {
+            isRefreshing = false;
+          });
+
       }
 
-      isRefreshing = true;
-
       try {
-        // 🔁 refresh via cookie
-        await api.post("/auth/refresh");
-
-        processQueue();
+        await refreshPromise;
         return api(originalRequest);
-      } catch (err) {
-        // 🚨 refresh failed = real logout
-        window.location.href = "/signin";
-        return Promise.reject(err);
-      } finally {
-        isRefreshing = false;
+      } catch {
+        return Promise.reject(error);
       }
     }
 
