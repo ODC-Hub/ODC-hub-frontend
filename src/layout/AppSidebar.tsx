@@ -325,17 +325,18 @@ const othersItems: NavItem[] = [
             <>
               <img
                 className="dark:hidden"
-                src="/images/logo/logo.svg"
+                src="/images/logo/img.png"
                 alt="Logo"
-                width={150}
-                height={40}
+                width={190}
+                height={50}
               />
+              
               <img
                 className="hidden dark:block"
-                src="/images/logo/logo-dark.svg"
+                src="/images/logo/img-dark.png"
                 alt="Logo"
-                width={150}
-                height={40}
+                width={180}
+                height={50}
               />
             </>
           ) : (

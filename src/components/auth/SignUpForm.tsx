@@ -131,7 +131,7 @@ export default function SignUpForm() {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder="you@mail.com"
+              placeholder="you@email.com"
               required
             />
             {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
