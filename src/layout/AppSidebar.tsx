@@ -73,10 +73,10 @@ const AppSidebar: React.FC = () => {
     subItems: [{ name: "Basic Tables", path: "/basic-tables", pro: false }],
   },
   {
-    name: "Pages",
+    name: "FilRouge",
     icon: <PageIcon />,
     subItems: [
-      { name: "Blank Page", path: "/blank", pro: false },
+      { name: "Projects", path: "/projects", pro: false },
       { name: "404 Error", path: "/error-404", pro: false },
     ],
   },
@@ -341,10 +341,10 @@ const othersItems: NavItem[] = [
             </>
           ) : (
             <img
-              src="/images/logo/logo-icon.svg"
+              src="/images/logo/logo.icon.png"
               alt="Logo"
-              width={32}
-              height={32}
+              width={33}
+              height={33}
             />
           )}
         </Link>
