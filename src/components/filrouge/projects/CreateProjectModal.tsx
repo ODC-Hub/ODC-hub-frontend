@@ -131,7 +131,7 @@ export function CreateProjectModal({ open, onOpenChange, onProjectCreated }: Cre
                             <div className="mb-2 p-3 bg-red-50 border border-red-200 rounded-md text-sm text-red-600">
                                 <p className="font-semibold">{error}</p>
                                 {error.includes("404") && (
-                                    <p className="mt-1 font-bold">Please RESTART the Backend Server (Stop & Run).</p>
+                                    <p> Please RESTART the Backend Server</p>
                                 )}
                             </div>
                         )}
@@ -153,7 +153,7 @@ export function CreateProjectModal({ open, onOpenChange, onProjectCreated }: Cre
                                                 alt={u.fullName}
                                                 className="w-8 h-8 rounded-full object-cover border border-gray-200"
                                                 onError={(e) => {
-                                                    // Fallback to initial if image fails
+                                            
                                                     (e.target as HTMLImageElement).style.display = 'none';
                                                     (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
                                                 }}
@@ -174,7 +174,7 @@ export function CreateProjectModal({ open, onOpenChange, onProjectCreated }: Cre
                                 </div>
                             ))}
                             {users.length === 0 && !error && (
-                                <div className="text-center text-gray-500 py-4 text-sm">No bootcampers found.</div>
+                                <div className="text-center text-gray-500 py-4 text-sm">No bootcampers found</div>
                             )}
                         </div>
                     </div>
