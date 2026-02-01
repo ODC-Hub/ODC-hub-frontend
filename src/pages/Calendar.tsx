@@ -57,9 +57,9 @@ const Calendar: React.FC = () => {
   const getTypeColor = (type: string) => {
     switch (type) {
       case "SESSION": return "#3C50E0";
-      case "DEADLINE": return "#F0950C";
-      case "EVENT": return "#10B981"; 
-      case "ASSESSMENT": return "#DC3545"; 
+      case "DEADLINE": return "#ff0000";
+      case "EVENT": return "#ff4500"; 
+      case "ASSESSMENT": return "#27a844"; 
       default: return "#3C50E0";
     }
   };
