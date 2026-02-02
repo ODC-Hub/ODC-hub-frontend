@@ -87,6 +87,11 @@ export const sprintApi = {
         });
         return response.data;
     },
+
+    updateSprint: async (sprintId: string, data: { name: string; startDate: string; endDate: string }): Promise<Sprint> => {
+        const response = await api.put(`/filrouge/sprints/${sprintId}`, data);
+        return response.data;
+    },
 };
 
 export const workItemApi = {

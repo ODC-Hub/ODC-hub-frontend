@@ -105,7 +105,7 @@ export function ProjectDetailPage() {
             case 'overview':
                 return <ProjectOverview project={project} sprints={sprints} kpis={kpis} />;
             case 'board':
-                return <BoardView project={project} sprint={activeSprint} />;
+                return <BoardView project={project} sprint={activeSprint} onTabChange={(tab) => setActiveTab(tab)} />;
             case 'sprints':
                 return <SprintManagement project={project} sprints={sprints} onSprintUpdate={fetchProjectData} />;
             case 'kpis':
