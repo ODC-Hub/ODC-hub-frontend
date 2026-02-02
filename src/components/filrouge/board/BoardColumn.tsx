@@ -34,7 +34,7 @@ export function BoardColumn({ id, title, items, onItemClick, onAddItem }: BoardC
     };
 
     const getTotalPoints = () => {
-        return items.reduce((sum, item) => sum + (item.points || 0), 0);
+        return items.reduce((sum, item) => sum + (item.effort || 0), 0);
     };
 
     return (
@@ -53,16 +53,15 @@ export function BoardColumn({ id, title, items, onItemClick, onAddItem }: BoardC
                     </button>
                 </div>
                 <div className="text-xs text-gray-500 font-medium">
-                    {getTotalPoints()} points
+                    {getTotalPoints()} story points
                 </div>
             </div>
 
             {/* Droppable Area */}
             <div
                 ref={setNodeRef}
-                className={`flex-1 p-4 space-y-3 overflow-y-auto transition-all ${
-                    isOver ? 'bg-blue-50/50 ring-2 ring-blue-300 ring-inset' : ''
-                }`}
+                className={`flex-1 p-4 space-y-3 overflow-y-auto transition-all ${isOver ? 'bg-blue-50/50 ring-2 ring-blue-300 ring-inset' : ''
+                    }`}
             >
                 {items.map((item) => (
                     <WorkItemCard
