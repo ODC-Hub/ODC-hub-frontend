@@ -75,9 +75,12 @@ const AppSidebar: React.FC = () => {
   
 
   {
-    name: "Projects",
+    name: "FilRouge",
     icon: <PageIcon />,
-    path: "/projects"
+    subItems: [
+      { name: "Projects", path: "/projects", pro: false },
+      { name: "404 Error", path: "/error-404", pro: false },
+    ],
   },
 ];
 

@@ -8,6 +8,7 @@ import { BoardView } from '../board/BoardView';
 import { SprintManagement } from '../sprints/SprintManagement';
 import { KpiDashboard } from '../kpis/KpiDashboard';
 import { RetrospectivePanel } from '../retrospective/RetrospectivePanel';
+import { MembersPanel } from './MembersPanel';
 import {
     LayoutDashboard,
     KanbanSquare,
@@ -16,10 +17,11 @@ import {
     MessageSquare,
     ChevronLeft,
     Settings,
-    UserPlus
+    UserPlus,
+    Users
 } from 'lucide-react';
 
-type TabType = 'overview' | 'board' | 'sprints' | 'kpis' | 'retrospective';
+type TabType = 'overview' | 'board' | 'sprints' | 'kpis' | 'retrospective' | 'members';
 
 interface TabConfig {
     id: TabType;
@@ -29,10 +31,11 @@ interface TabConfig {
 
 const TABS: TabConfig[] = [
     { id: 'overview', label: 'Overview', icon: LayoutDashboard },
-    { id: 'sprints', label: 'Sprints', icon: Timer },
     { id: 'board', label: 'Board', icon: KanbanSquare },
+    { id: 'sprints', label: 'Sprints', icon: Timer },
     { id: 'kpis', label: 'KPIs', icon: BarChart3 },
     { id: 'retrospective', label: 'Retrospective', icon: MessageSquare },
+    { id: 'members', label: 'Members', icon: Users },
 ];
 
 export function ProjectDetailPage() {
@@ -105,13 +108,21 @@ export function ProjectDetailPage() {
             case 'overview':
                 return <ProjectOverview project={project} sprints={sprints} kpis={kpis} />;
             case 'board':
-                return <BoardView project={project} sprint={activeSprint} />;
+                return <BoardView project={project} sprint={activeSprint} onTabChange={(tab) => setActiveTab(tab)} />;
             case 'sprints':
                 return <SprintManagement project={project} sprints={sprints} onSprintUpdate={fetchProjectData} />;
             case 'kpis':
                 return <KpiDashboard project={project} sprints={sprints} kpis={kpis} />;
             case 'retrospective':
                 return <RetrospectivePanel project={project} sprints={sprints} />;
+            case 'members':
+                return (
+                    <MembersPanel
+                        project={project}
+                        sprints={sprints}
+                        onMemberUpdate={fetchProjectData}
+                    />
+                );
             default:
                 return <ProjectOverview project={project} sprints={sprints} kpis={kpis} />;
         }
@@ -180,10 +191,15 @@ export function ProjectDetailPage() {
                     })}
                 </nav>
 
-                {/* Settings */}
                 <div className="p-3 border-t border-gray-200">
-                    <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all">
-                        <Settings className="w-5 h-5 text-gray-400" />
+                    <button
+                        onClick={() => setActiveTab('members')}
+                        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all ${activeTab === 'members'
+                            ? 'bg-orange-50 text-orange-600 font-medium'
+                            : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                            }`}
+                    >
+                        <Settings className={`w-5 h-5 ${activeTab === 'members' ? 'text-orange-600' : 'text-gray-400'}`} />
                         <span className="text-sm">Members</span>
                     </button>
                 </div>

@@ -13,6 +13,7 @@ import { toast } from 'react-hot-toast';
 interface BoardViewProps {
     project: Project;
     sprint?: Sprint;
+    onTabChange: (tab: 'sprints') => void;
 }
 
 interface User {
@@ -23,7 +24,7 @@ interface User {
     avatarFileId?: string;
 }
 
-export function BoardView({ project, sprint }: BoardViewProps) {
+export function BoardView({ project, sprint, onTabChange }: BoardViewProps) {
     const [workItems, setWorkItems] = useState<WorkItem[]>([]);
     const [projectMembers, setProjectMembers] = useState<User[]>([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -92,7 +93,6 @@ export function BoardView({ project, sprint }: BoardViewProps) {
                 await workItemApi.createWorkItem(project.id, sprint.id, data);
                 toast.success("Work item created");
             } else if (selectedItem) {
-            
                 toast.success("Work item updated");
             }
             setIsModalOpen(false);
@@ -103,7 +103,8 @@ export function BoardView({ project, sprint }: BoardViewProps) {
     };
 
     const handleCloseSprint = () => {
-        console.log("Close sprint");
+        onTabChange('sprints');
+        toast.success("Please select the next sprint to carry over unfinished work", { icon: 'ℹ️' });
     };
 
     const handleExportRetrospective = () => {

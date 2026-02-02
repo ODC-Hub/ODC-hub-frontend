@@ -2,21 +2,7 @@ import api from './axios';
 import { Project, ProjectKpi } from '../types/project';
 import { Sprint, WorkItem, CreateWorkItemRequest } from '../types/sprint';
 
-// The base URL is already handled in axios.ts ('http://localhost:8080/api')
-// So we just append the specific endpoints.
-// Note: axios.ts baseUrl is .../api, so we don't need /api prefix here if it's already there?
-// Let's check axios.ts again. It is http://localhost:8080/api
-// So api.get('/filrouge/projects') will be http://localhost:8080/api/filrouge/projects
-// Which matches the backend controller RequestMapping("/api/filrouge/projects")? 
-// Wait, Controller says @RequestMapping("/api/filrouge/projects")
-// So axios base is .../api
-// URL should be /filrouge/projects.
 
-// Re-using the imported 'api' instance removes local configuration issues.
-
-// ... existing code ...
-
-// Define a User type or reuse if available common location
 interface UserDto {
     id: string;
     email: string;
@@ -62,6 +48,16 @@ export const projectApi = {
     getProjectById: async (projectId: string): Promise<Project> => {
         const response = await api.get(`/filrouge/projects/${projectId}`);
         return response.data;
+    },
+
+    addMember: async (projectId: string, userId: string): Promise<Project> => {
+        const response = await api.post(`/filrouge/projects/${projectId}/members/${userId}`);
+        return response.data;
+    },
+
+    removeMember: async (projectId: string, userId: string): Promise<Project> => {
+        const response = await api.delete(`/filrouge/projects/${projectId}/members/${userId}`);
+        return response.data;
     }
 };
 
@@ -85,6 +81,11 @@ export const sprintApi = {
         const response = await api.post(`/filrouge/sprints/${sprintId}/close`, null, {
             params: { nextSprintId }
         });
+        return response.data;
+    },
+
+    updateSprint: async (sprintId: string, data: { name: string; startDate: string; endDate: string }): Promise<Sprint> => {
+        const response = await api.put(`/filrouge/sprints/${sprintId}`, data);
         return response.data;
     },
 };
