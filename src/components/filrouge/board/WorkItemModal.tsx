@@ -12,7 +12,7 @@ interface User {
 }
 
 interface WorkItemModalProps {
-  workItem?: WorkItem; 
+  workItem?: WorkItem;
   onClose: () => void;
   onSave: (workItem: Partial<WorkItem>) => void;
   mode: 'create' | 'edit' | 'view';
@@ -31,14 +31,14 @@ export function WorkItemModal({ workItem, onClose, onSave, mode, initialStatus =
   const [formData, setFormData] = useState<any>(
     workItem ? {
       ...workItem,
-      deadline: workItem.deadline ? workItem.deadline.split('T')[0] : new Date().toISOString().split('T')[0]
+      deadline: workItem.deadline ? workItem.deadline.split('T')[0] : new Date().toLocaleDateString('en-CA')
     } : {
       title: '',
       description: '',
       type: 'TASK',
       status: initialStatus,
       effort: 1,
-      deadline: new Date().toISOString().split('T')[0],
+      deadline: new Date().toLocaleDateString('en-CA'),
       assignedUserIds: [],
     }
   );
