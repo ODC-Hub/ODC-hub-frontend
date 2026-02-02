@@ -29,8 +29,8 @@ interface TabConfig {
 
 const TABS: TabConfig[] = [
     { id: 'overview', label: 'Overview', icon: LayoutDashboard },
-    { id: 'board', label: 'Board', icon: KanbanSquare },
     { id: 'sprints', label: 'Sprints', icon: Timer },
+    { id: 'board', label: 'Board', icon: KanbanSquare },
     { id: 'kpis', label: 'KPIs', icon: BarChart3 },
     { id: 'retrospective', label: 'Retrospective', icon: MessageSquare },
 ];

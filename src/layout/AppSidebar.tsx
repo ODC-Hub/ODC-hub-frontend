@@ -62,7 +62,7 @@ const AppSidebar: React.FC = () => {
       ]
     : []),
 
-  {
+  /*{
     name: "Forms",
     icon: <ListIcon />,
     subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
@@ -71,19 +71,18 @@ const AppSidebar: React.FC = () => {
     name: "Tables",
     icon: <TableIcon />,
     subItems: [{ name: "Basic Tables", path: "/basic-tables", pro: false }],
-  },
+  },*/
+  
+
   {
-    name: "FilRouge",
+    name: "Projects",
     icon: <PageIcon />,
-    subItems: [
-      { name: "Projects", path: "/projects", pro: false },
-      { name: "404 Error", path: "/error-404", pro: false },
-    ],
+    path: "/projects"
   },
 ];
 
 const othersItems: NavItem[] = [
-  {
+  /*{
     icon: <PieChartIcon />,
     name: "Charts",
     subItems: [
@@ -110,7 +109,7 @@ const othersItems: NavItem[] = [
       { name: "Sign In", path: "/signin", pro: false },
       { name: "Sign Up", path: "/signup", pro: false },
     ],
-  },
+  },*/
 ];
 
   const [openSubmenu, setOpenSubmenu] = useState<{
@@ -386,7 +385,6 @@ const othersItems: NavItem[] = [
             </div>
           </div>
         </nav>
-        {isExpanded || isHovered || isMobileOpen ? <SidebarWidget /> : null}
       </div>
     </aside>
   );
