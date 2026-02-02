@@ -9,7 +9,6 @@ import {
   Calendar,
   X,
   AlertCircle,
-  Pencil,
 } from 'lucide-react';
 import { sprintApi } from '../../../api/filrouge';
 
@@ -38,10 +37,6 @@ export function SprintManagement({
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [showCompleteModal, setShowCompleteModal] = useState(false);
-  const [selectedSprintToClose, setSelectedSprintToClose] = useState<Sprint | null>(null);
-  const [nextSprintId, setNextSprintId] = useState<string>('');
-  const [sprintToEdit, setSprintToEdit] = useState<Sprint | null>(null);
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -90,86 +85,6 @@ export function SprintManagement({
     });
   };
 
-  const openCreateModal = () => {
-    setSprintToEdit(null);
-    setFormData({ name: '', startDate: '', endDate: '' });
-    setShowCreateModal(true);
-  };
-
-  const openEditModal = (sprint: Sprint) => {
-    setSprintToEdit(sprint);
-    setFormData({
-      name: sprint.name,
-      startDate: sprint.startDate ? new Date(sprint.startDate).toISOString().split('T')[0] : '',
-      endDate: sprint.endDate ? new Date(sprint.endDate).toISOString().split('T')[0] : '',
-    });
-    setShowCreateModal(true);
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    setIsSubmitting(true);
-
-    try {
-      if (sprintToEdit) {
-        await sprintApi.updateSprint(sprintToEdit.id, {
-          name: formData.name,
-          startDate: new Date(formData.startDate).toISOString(),
-          endDate: new Date(formData.endDate).toISOString(),
-        });
-      } else {
-        await sprintApi.createSprint(project.id, {
-          name: formData.name,
-          startDate: new Date(formData.startDate).toISOString(),
-          endDate: new Date(formData.endDate).toISOString(),
-        });
-      }
-
-      setFormData({ name: '', startDate: '', endDate: '' });
-      setShowCreateModal(false);
-      setSprintToEdit(null);
-      onSprintUpdate();
-    } catch (err: any) {
-      setError(
-        err.response?.data?.message ||
-        `Failed to ${sprintToEdit ? 'update' : 'create'} sprint. Please try again.`
-      );
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const handleStartSprint = async (sprintId: string) => {
-    setError(null);
-    setIsSubmitting(true);
-    try {
-      await sprintApi.startSprint(sprintId);
-      onSprintUpdate();
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to start sprint.');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const handleCompleteSprint = async () => {
-    if (!selectedSprintToClose || !nextSprintId) return;
-    setError(null);
-    setIsSubmitting(true);
-    try {
-      await sprintApi.closeSprint(selectedSprintToClose.id, nextSprintId);
-      setShowCompleteModal(false);
-      setSelectedSprintToClose(null);
-      setNextSprintId('');
-      onSprintUpdate();
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to complete sprint.');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
   const calculateProgress = (sprint: Sprint) => {
     if (!sprint.plannedEffort || sprint.plannedEffort === 0) return 0;
     return Math.round(
@@ -179,7 +94,7 @@ export function SprintManagement({
 
   const sortedSprints = [...sprints].sort((a, b) => {
     const order = { ACTIVE: 0, PLANNED: 1, CLOSED: 2 };
-    const diff = (order[a.status as keyof typeof order] || 0) - (order[b.status as keyof typeof order] || 0);
+    const diff = order[a.status] - order[b.status];
     if (diff !== 0) return diff;
 
     if (a.startDate && b.startDate) {
@@ -191,7 +106,30 @@ export function SprintManagement({
     return 0;
   });
 
-  const plannedSprints = sprints.filter(s => s.status === 'PLANNED');
+  const handleCreateSprint = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setIsSubmitting(true);
+
+    try {
+      await sprintApi.createSprint(project.id, {
+        name: formData.name,
+        startDate: new Date(formData.startDate).toISOString(),
+        endDate: new Date(formData.endDate).toISOString(),
+      });
+
+      setFormData({ name: '', startDate: '', endDate: '' });
+      setShowCreateModal(false);
+      onSprintUpdate();
+    } catch (err: any) {
+      setError(
+        err.response?.data?.message ||
+          'Failed to create sprint. Please try again.'
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -207,7 +145,7 @@ export function SprintManagement({
           </p>
         </div>
         <button
-          onClick={openCreateModal}
+          onClick={() => setShowCreateModal(true)}
           className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium"
         >
           <Plus className="w-4 h-4" />
@@ -247,39 +185,11 @@ export function SprintManagement({
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => openEditModal(sprint)}
-                    className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
-                    title="Edit Sprint"
-                  >
-                    <Pencil className="w-4 h-4" />
+                {sprint.status === 'ACTIVE' && (
+                  <button className="px-3 py-1.5 text-sm font-medium border border-gray-300 rounded-md hover:bg-gray-50">
+                    Complete Sprint
                   </button>
-
-                  {sprint.status === 'ACTIVE' && (
-                    <button
-                      onClick={() => {
-                        setSelectedSprintToClose(sprint);
-                        setShowCompleteModal(true);
-                      }}
-                      className="px-3 py-1.5 text-sm font-medium bg-gray-900 text-white rounded-md hover:bg-gray-800 flex items-center gap-2"
-                    >
-                      <CheckCircle className="w-4 h-4" />
-                      Complete Sprint
-                    </button>
-                  )}
-
-                  {sprint.status === 'PLANNED' && (
-                    <button
-                      onClick={() => handleStartSprint(sprint.id)}
-                      disabled={isSubmitting}
-                      className="px-3 py-1.5 text-sm font-medium bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 flex items-center gap-2"
-                    >
-                      <Play className="w-4 h-4" />
-                      Start Sprint
-                    </button>
-                  )}
-                </div>
+                )}
               </div>
 
               {/* Progress */}
@@ -290,10 +200,11 @@ export function SprintManagement({
                 </div>
                 <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
                   <div
-                    className={`h-2 rounded-full ${sprint.status === 'CLOSED'
-                      ? 'bg-green-500'
-                      : 'bg-blue-500'
-                      }`}
+                    className={`h-2 rounded-full ${
+                      sprint.status === 'CLOSED'
+                        ? 'bg-green-500'
+                        : 'bg-blue-500'
+                    }`}
                     style={{ width: `${progress}%` }}
                   />
                 </div>
@@ -325,21 +236,19 @@ export function SprintManagement({
         })}
       </div>
 
-      {/* Create/Edit Sprint Modal */}
+      {/* Create Sprint Modal */}
       {showCreateModal && (
         <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50 backdrop-blur-sm">
           <div className="bg-white rounded-xl shadow-lg w-full max-w-md">
             <div className="px-6 py-4 border-b flex justify-between items-center">
-              <h3 className="text-lg font-semibold">
-                {sprintToEdit ? 'Edit Sprint' : 'Create New Sprint'}
-              </h3>
+              <h3 className="text-lg font-semibold">Create New Sprint</h3>
               <button onClick={() => setShowCreateModal(false)}>
                 <X className="w-5 h-5 text-gray-500" />
               </button>
             </div>
 
             <form
-              onSubmit={handleSubmit}
+              onSubmit={handleCreateSprint}
               className="p-6 space-y-4"
             >
               {error && (
@@ -413,80 +322,10 @@ export function SprintManagement({
                   disabled={isSubmitting}
                   className="px-4 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
                 >
-                  {isSubmitting ? 'Saving...' : sprintToEdit ? 'Update Sprint' : 'Create Sprint'}
+                  {isSubmitting ? 'Creating...' : 'Create Sprint'}
                 </button>
               </div>
             </form>
-          </div>
-        </div>
-      )}
-
-      {/* Complete Sprint Modal */}
-      {showCompleteModal && (
-        <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50 backdrop-blur-sm">
-          <div className="bg-white rounded-xl shadow-lg w-full max-w-md">
-            <div className="px-6 py-4 border-b flex justify-between items-center">
-              <h3 className="text-lg font-semibold">Complete Sprint</h3>
-              <button onClick={() => setShowCompleteModal(false)}>
-                <X className="w-5 h-5 text-gray-500" />
-              </button>
-            </div>
-
-            <div className="p-6 space-y-4">
-              <p className="text-sm text-gray-600">
-                You are about to complete <strong>{selectedSprintToClose?.name}</strong>.
-                Any unfinished work items will be carried over to the next sprint.
-              </p>
-
-              {error && (
-                <div className="flex gap-2 p-3 text-sm text-red-700 bg-red-50 border border-red-200 rounded-md">
-                  <AlertCircle className="w-4 h-4 mt-0.5" />
-                  {error}
-                </div>
-              )}
-
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Select Next Sprint (Carry-over destination)
-                </label>
-                <select
-                  className="w-full px-3 py-2.5 text-sm border rounded-md focus:ring-2 focus:ring-blue-500"
-                  value={nextSprintId}
-                  onChange={(e) => setNextSprintId(e.target.value)}
-                  required
-                >
-                  <option value="">-- Choose a planned sprint --</option>
-                  {plannedSprints
-                    .filter(s => s.id !== selectedSprintToClose?.id)
-                    .map(s => (
-                      <option key={s.id} value={s.id}>{s.name}</option>
-                    ))
-                  }
-                </select>
-                {plannedSprints.length === 0 && (
-                  <p className="text-xs text-amber-600 mt-1">
-                    No planned sprints available. Create one first to carry over work.
-                  </p>
-                )}
-              </div>
-
-              <div className="flex justify-end gap-3 pt-4">
-                <button
-                  type="button"
-                  onClick={() => setShowCompleteModal(false)}
-                  className="px-4 py-2 text-sm border rounded-md"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleCompleteSprint}
-                  disabled={isSubmitting || !nextSprintId}
-                  className="px-4 py-2 text-sm bg-gray-900 text-white rounded-md hover:bg-gray-800 disabled:opacity-50"
-                >
-                  {isSubmitting ? 'Completing...' : 'Complete & Carry Over'}
-                </button>
-              </div>
-            </div>
           </div>
         </div>
       )}
