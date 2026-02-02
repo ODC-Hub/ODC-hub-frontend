@@ -62,6 +62,16 @@ export const projectApi = {
     getProjectById: async (projectId: string): Promise<Project> => {
         const response = await api.get(`/filrouge/projects/${projectId}`);
         return response.data;
+    },
+
+    addMember: async (projectId: string, userId: string): Promise<Project> => {
+        const response = await api.post(`/filrouge/projects/${projectId}/members/${userId}`);
+        return response.data;
+    },
+
+    removeMember: async (projectId: string, userId: string): Promise<Project> => {
+        const response = await api.delete(`/filrouge/projects/${projectId}/members/${userId}`);
+        return response.data;
     }
 };
 
