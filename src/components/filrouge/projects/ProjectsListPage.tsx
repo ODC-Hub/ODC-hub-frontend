@@ -16,9 +16,10 @@ export function ProjectsListPage() {
         const fetchProjects = async () => {
             try {
                 const data = await projectApi.getAllProjects();
+                console.log("Fetched projects (Retry):", data);
                 setProjects(data);
-            } catch (err) {
-                console.error("Failed to fetch projects", err);
+            } catch (err: any) {
+                console.error("Failed to fetch projects (Retry)", JSON.stringify(err.response?.data || err, null, 2));
             } finally {
                 setIsLoading(false);
             }
@@ -76,8 +77,8 @@ export function ProjectsListPage() {
                 open={createModalOpen}
                 onOpenChange={setCreateModalOpen}
                 onProjectCreated={() => {
-                    
-                    window.location.reload(); 
+
+                    window.location.reload();
                 }}
             />
         </div>

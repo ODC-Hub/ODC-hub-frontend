@@ -38,6 +38,11 @@ export function SprintManagement({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Complete Sprint Modal State
+  const [showCompleteModal, setShowCompleteModal] = useState(false);
+  const [sprintToComplete, setSprintToComplete] = useState<Sprint | null>(null);
+  const [nextSprintId, setNextSprintId] = useState<string>('');
+
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'ACTIVE':
@@ -124,12 +129,54 @@ export function SprintManagement({
     } catch (err: any) {
       setError(
         err.response?.data?.message ||
-          'Failed to create sprint. Please try again.'
+        'Failed to create sprint. Please try again.'
       );
     } finally {
       setIsSubmitting(false);
     }
   };
+
+  const handleStartSprint = async (sprintId: string) => {
+    try {
+      await sprintApi.startSprint(sprintId);
+      onSprintUpdate();
+    } catch (err: any) {
+      alert(err.response?.data?.message || 'Failed to start sprint');
+    }
+  };
+
+  const handleCompleteSprintClick = (sprint: Sprint) => {
+    setSprintToComplete(sprint);
+    const plannedSprints = sprints.filter(s => s.status === 'PLANNED');
+    if (plannedSprints.length > 0) {
+      setNextSprintId(plannedSprints[0].id);
+    } else {
+      setNextSprintId('');
+    }
+    setShowCompleteModal(true);
+  };
+
+  const handleConfirmComplete = async () => {
+    if (!sprintToComplete || !nextSprintId) {
+      alert("Please select the next sprint.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      await sprintApi.closeSprint(sprintToComplete.id, nextSprintId);
+      setShowCompleteModal(false);
+      setSprintToComplete(null);
+      setNextSprintId('');
+      onSprintUpdate();
+    } catch (err: any) {
+      alert(err.response?.data?.message || 'Failed to complete sprint');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const hasActiveSprint = sprints.some(s => s.status === 'ACTIVE');
 
   return (
     <div className="space-y-6">
@@ -186,8 +233,25 @@ export function SprintManagement({
                 </div>
 
                 {sprint.status === 'ACTIVE' && (
-                  <button className="px-3 py-1.5 text-sm font-medium border border-gray-300 rounded-md hover:bg-gray-50">
+                  <button
+                    onClick={() => handleCompleteSprintClick(sprint)}
+                    className="px-3 py-1.5 text-sm font-medium border border-gray-300 rounded-md hover:bg-gray-50"
+                  >
                     Complete Sprint
+                  </button>
+                )}
+                {sprint.status === 'PLANNED' && (
+                  <button
+                    onClick={() => handleStartSprint(sprint.id)}
+                    disabled={hasActiveSprint}
+                    className={`px-3 py-1.5 text-sm font-medium border rounded-md transition-colors
+                      ${hasActiveSprint
+                        ? 'border-gray-200 text-gray-400 cursor-not-allowed bg-gray-50'
+                        : 'border-blue-600 text-blue-600 hover:bg-blue-50'
+                      }`}
+                    title={hasActiveSprint ? "Complete the active sprint first" : "Start this sprint"}
+                  >
+                    Start Sprint
                   </button>
                 )}
               </div>
@@ -200,11 +264,10 @@ export function SprintManagement({
                 </div>
                 <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
                   <div
-                    className={`h-2 rounded-full ${
-                      sprint.status === 'CLOSED'
-                        ? 'bg-green-500'
-                        : 'bg-blue-500'
-                    }`}
+                    className={`h-2 rounded-full ${sprint.status === 'CLOSED'
+                      ? 'bg-green-500'
+                      : 'bg-blue-500'
+                      }`}
                     style={{ width: `${progress}%` }}
                   />
                 </div>
@@ -326,6 +389,70 @@ export function SprintManagement({
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Complete Sprint Modal */}
+      {showCompleteModal && sprintToComplete && (
+        <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50 backdrop-blur-sm">
+          <div className="bg-white rounded-xl shadow-lg w-full max-w-md">
+            <div className="px-6 py-4 border-b flex justify-between items-center">
+              <h3 className="text-lg font-semibold">Complete Sprint {sprintToComplete.name}</h3>
+              <button onClick={() => setShowCompleteModal(false)}>
+                <X className="w-5 h-5 text-gray-500" />
+              </button>
+            </div>
+
+            <div className="p-6 space-y-4">
+              <div className="p-4 bg-yellow-50 text-yellow-800 rounded-lg text-sm">
+                <p>This will complete the current sprint. Any incomplete items must be moved to another sprint.</p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-1">
+                  Move incomplete items to:
+                </label>
+                <select
+                  className="w-full px-3 py-2.5 text-sm border rounded-md focus:ring-2 focus:ring-blue-500"
+                  value={nextSprintId}
+                  onChange={(e) => setNextSprintId(e.target.value)}
+                >
+                  <option value="" disabled>Select a sprint...</option>
+                  {sprints
+                    .filter(s => s.status === 'PLANNED')
+                    .map(s => (
+                      <option key={s.id} value={s.id}>
+                        {s.name}
+                      </option>
+                    ))
+                  }
+                </select>
+                {sprints.filter(s => s.status === 'PLANNED').length === 0 && (
+                  <p className="text-xs text-red-600 mt-1">
+                    No planned sprints available. Please create a new sprint first.
+                  </p>
+                )}
+              </div>
+
+              <div className="flex justify-end gap-3 pt-4">
+                <button
+                  type="button"
+                  onClick={() => setShowCompleteModal(false)}
+                  className="px-4 py-2 text-sm border rounded-md"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleConfirmComplete}
+                  disabled={isSubmitting || !nextSprintId}
+                  className="px-4 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
+                >
+                  {isSubmitting ? 'Completing...' : 'Complete Sprint'}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}
