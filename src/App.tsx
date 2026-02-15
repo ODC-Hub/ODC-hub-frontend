@@ -34,6 +34,10 @@ import ForgotPasswordPage from "./components/auth/ForgotPasswordPage";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import { ProjectsListPage } from "./components/filrouge/projects/ProjectsListPage";
 import { ProjectDetailPage } from "./components/filrouge/project/ProjectDetailPage";
+import ResourcesPage from "./components/filrouge/resources/ResourcesPage";
+import HomeworkReviewsPage from "./pages/HomeworkReviewsPage";
+import HomeworkDetailsPage from "./pages/HomeworkDetailsPage";
+import MySubmissionsPage from "./pages/MySubmissionsPage";
 
 export default function App() {
   return (
@@ -85,6 +89,12 @@ export default function App() {
             {/* Fil Rouge Projects */}
             <Route path="/projects" element={<ProjectsListPage />} />
             <Route path="/projects/:projectId" element={<ProjectDetailPage />} />
+            <Route path="/resources" element={<ResourcesPage />} />
+
+            {/* Homework Workflow */}
+            <Route path="/homework-reviews" element={<HomeworkReviewsPage />} />
+            <Route path="/homework/:resourceId/reviews" element={<HomeworkDetailsPage />} />
+            <Route path="/my-submissions" element={<MySubmissionsPage />} />
 
             <Route path="/account-settings" element={<AccountSettings />} />
           </Route>
