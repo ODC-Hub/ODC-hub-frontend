@@ -59,7 +59,7 @@ export function SprintControls({
             </div>
 
             {/* Right: Actions */}
-            <div className="flex items-center gap-2">
+            {/*<div className="flex items-center gap-2">
                 <Button onClick={onExportRetrospective} variant="outline" size="sm">
                     <BarChart2 className="w-4 h-4 mr-2" />
                     Retrospective
@@ -71,7 +71,7 @@ export function SprintControls({
                         Close Sprint
                     </Button>
                 )}
-            </div>
+            </div>*/}
         </div>
     );
 }

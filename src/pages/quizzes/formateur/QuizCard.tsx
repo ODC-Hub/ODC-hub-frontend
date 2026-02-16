@@ -47,7 +47,7 @@ export default function QuizCard({ quiz, onDeleted }: Props) {
         </div>
 
         <div className="mt-4 flex gap-4 text-sm">
-          <Link to={`/quizzes/${quiz.id}`} className="text-blue-600 hover:underline">
+          <Link to={`/quizzes/${quiz.id}/preview`} className="text-blue-600 hover:underline">
             View
           </Link>
 

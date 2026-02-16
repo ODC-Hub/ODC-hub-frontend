@@ -114,7 +114,7 @@ export default function App() {
               <Route path="/quizzes/formateur" element={<FormateurQuizDashboard />} />
               <Route path="/quizzes/create" element={<CreateQuizPage />} />
               <Route path="/quizzes/formateur/results" element={<FormateurQuizResultsPage />} />
-              <Route path="/quizzes/:quizId" element={<QuizPreviewPage />} />
+              <Route path="/quizzes/:quizId/preview" element={<QuizPreviewPage />} />              
               <Route path="/quizzes/:quizId/edit" element={<EditQuizPage />} />
 
             </Route>
@@ -122,7 +122,7 @@ export default function App() {
             <Route element={<ProtectedRoute allowedRoles={["BOOTCAMPER"]} />}>
               <Route path="/quizzes" element={<AvailableQuizzesPage />} />
               <Route path="/quizzes/my-results" element={<MyQuizResults />} />
-              <Route path="/quizzes/:quizId" element={<TakeQuizPage />} />
+              <Route path="/quizzes/:quizId/take" element={<TakeQuizPage />} />
             </Route>
 
 

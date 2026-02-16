@@ -2,20 +2,14 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router";
 
 import {
-  BoxCubeIcon,
   CalenderIcon,
   ChevronDownIcon,
   GridIcon,
   HorizontaLDots,
-  ListIcon,
   PageIcon,
-  PieChartIcon,
-  PlugInIcon,
-  TableIcon,
   UserCircleIcon,
 } from "../icons";
 import { useSidebar } from "../context/SidebarContext";
-import SidebarWidget from "./SidebarWidget";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { FileText, BookOpen, CheckCircle } from "lucide-react";
@@ -35,8 +29,6 @@ const AppSidebar: React.FC = () => {
   const auth = useContext(AuthContext);
   const role = auth?.user?.role;
   const isAdmin = role === "ADMIN";
-  const isFormateur = auth?.user?.role === "FORMATEUR" || isAdmin;
-  const isBootcamper = auth?.user?.role === "BOOTCAMPER";
 
   const isFormateur = role === "FORMATEUR";
   const isBootcamper = role === "BOOTCAMPER";
@@ -55,7 +47,7 @@ const AppSidebar: React.FC = () => {
     },
     {
       icon: <FileText />,
-      name: "Resources",
+      name: "Materials",
       path: "/resources",
     },
 
@@ -94,12 +86,6 @@ const AppSidebar: React.FC = () => {
       ]
       : []),
 
-      {
-      icon: <BookIcon />, // or any icon
-      name: "Learning",
-      path: "/learning",
-    },
-
   /*{
       name: "Forms",
       icon: <ListIcon />,
@@ -112,13 +98,49 @@ const AppSidebar: React.FC = () => {
     },*/
 
   {
-    name: "FilRouge",
+    name: "Projects",
     icon: <PageIcon />,
-    subItems: [
-      { name: "Projects", path: "/projects", pro: false },
-    ],
+    path: "/projects",
   },
-  ...(isFormateur
+  
+];
+
+  const othersItems: NavItem[] = [
+    /*{
+      icon: <PieChartIcon />,
+      name: "Charts",
+      subItems: [
+        { name: "Line Chart", path: "/line-chart", pro: false },
+        { name: "Bar Chart", path: "/bar-chart", pro: false },
+      ],
+    },
+    {
+      icon: <BoxCubeIcon />,
+      name: "UI Elements",
+      subItems: [
+        { name: "Alerts", path: "/alerts", pro: false },
+        { name: "Avatar", path: "/avatars", pro: false },
+        { name: "Badge", path: "/badge", pro: false },
+        { name: "Buttons", path: "/buttons", pro: false },
+        { name: "Images", path: "/images", pro: false },
+        { name: "Videos", path: "/videos", pro: false },
+      ],
+    },
+    {
+      icon: <PlugInIcon />,
+      name: "Authentication",
+      subItems: [
+        { name: "Sign In", path: "/signin", pro: false },
+        { name: "Sign Up", path: "/signup", pro: false },
+      ],
+    },*/
+    {
+      icon: <BookIcon />, // or any icon
+      name: "Learning Assistant",
+      path: "/learning",
+    },
+
+    ...(isFormateur
   ? [
       {
         icon: <BookIcon />,
@@ -162,38 +184,6 @@ const AppSidebar: React.FC = () => {
   : []),
 
 ];
-
-  const othersItems: NavItem[] = [
-    /*{
-      icon: <PieChartIcon />,
-      name: "Charts",
-      subItems: [
-        { name: "Line Chart", path: "/line-chart", pro: false },
-        { name: "Bar Chart", path: "/bar-chart", pro: false },
-      ],
-    },
-    {
-      icon: <BoxCubeIcon />,
-      name: "UI Elements",
-      subItems: [
-        { name: "Alerts", path: "/alerts", pro: false },
-        { name: "Avatar", path: "/avatars", pro: false },
-        { name: "Badge", path: "/badge", pro: false },
-        { name: "Buttons", path: "/buttons", pro: false },
-        { name: "Images", path: "/images", pro: false },
-        { name: "Videos", path: "/videos", pro: false },
-      ],
-    },
-    {
-      icon: <PlugInIcon />,
-      name: "Authentication",
-      subItems: [
-        { name: "Sign In", path: "/signin", pro: false },
-        { name: "Sign Up", path: "/signup", pro: false },
-      ],
-    },*/
-  ];
-
   const [openSubmenu, setOpenSubmenu] = useState<{
     type: "main" | "others";
     index: number;

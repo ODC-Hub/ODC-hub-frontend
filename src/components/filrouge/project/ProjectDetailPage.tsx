@@ -9,7 +9,6 @@ import { SprintManagement } from '../sprints/SprintManagement';
 import { KpiDashboard } from '../kpis/KpiDashboard';
 import { RetrospectivePanel } from '../retrospective/RetrospectivePanel';
 import { MembersPanel } from './MembersPanel';
-import { MembersPanel } from './MembersPanel';
 import {
     LayoutDashboard,
     KanbanSquare,
@@ -19,7 +18,6 @@ import {
     ChevronLeft,
     Settings,
     UserPlus,
-    Users,
     Users
 } from 'lucide-react';
 
@@ -37,7 +35,6 @@ const TABS: TabConfig[] = [
     { id: 'board', label: 'Board', icon: KanbanSquare },
     { id: 'kpis', label: 'KPIs', icon: BarChart3 },
     { id: 'retrospective', label: 'Retrospective', icon: MessageSquare },
-    { id: 'members', label: 'Members', icon: Users },
     { id: 'members', label: 'Members', icon: Users },
 ];
 
@@ -126,14 +123,6 @@ export function ProjectDetailPage() {
                         onMemberUpdate={fetchProjectData}
                     />
                 );
-            case 'members':
-                return (
-                    <MembersPanel
-                        project={project}
-                        sprints={sprints}
-                        onMemberUpdate={fetchProjectData}
-                    />
-                );
             default:
                 return <ProjectOverview project={project} sprints={sprints} kpis={kpis} />;
         }
@@ -202,18 +191,7 @@ export function ProjectDetailPage() {
                     })}
                 </nav>
 
-                <div className="p-3 border-t border-gray-200">
-                    <button
-                        onClick={() => setActiveTab('members')}
-                        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all ${activeTab === 'members'
-                            ? 'bg-orange-50 text-orange-600 font-medium'
-                            : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-                            }`}
-                    >
-                        <Settings className={`w-5 h-5 ${activeTab === 'members' ? 'text-orange-600' : 'text-gray-400'}`} />
-                        <span className="text-sm">Members</span>
-                    </button>
-                </div>
+                
             </div>
 
             {/* Main Content Area */}
