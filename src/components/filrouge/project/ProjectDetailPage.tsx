@@ -9,6 +9,7 @@ import { SprintManagement } from '../sprints/SprintManagement';
 import { KpiDashboard } from '../kpis/KpiDashboard';
 import { RetrospectivePanel } from '../retrospective/RetrospectivePanel';
 import { MembersPanel } from './MembersPanel';
+import { MembersPanel } from './MembersPanel';
 import {
     LayoutDashboard,
     KanbanSquare,
@@ -18,10 +19,11 @@ import {
     ChevronLeft,
     Settings,
     UserPlus,
+    Users,
     Users
 } from 'lucide-react';
 
-type TabType = 'overview' | 'board' | 'sprints' | 'kpis' | 'retrospective' | 'members';
+type TabType = 'overview' | 'board' | 'sprints' | 'kpis' | 'retrospective' | 'members' | 'members';
 
 interface TabConfig {
     id: TabType;
@@ -31,10 +33,11 @@ interface TabConfig {
 
 const TABS: TabConfig[] = [
     { id: 'overview', label: 'Overview', icon: LayoutDashboard },
-    { id: 'board', label: 'Board', icon: KanbanSquare },
     { id: 'sprints', label: 'Sprints', icon: Timer },
+    { id: 'board', label: 'Board', icon: KanbanSquare },
     { id: 'kpis', label: 'KPIs', icon: BarChart3 },
     { id: 'retrospective', label: 'Retrospective', icon: MessageSquare },
+    { id: 'members', label: 'Members', icon: Users },
     { id: 'members', label: 'Members', icon: Users },
 ];
 
@@ -108,13 +111,21 @@ export function ProjectDetailPage() {
             case 'overview':
                 return <ProjectOverview project={project} sprints={sprints} kpis={kpis} />;
             case 'board':
-                return <BoardView project={project} sprint={activeSprint} onTabChange={(tab) => setActiveTab(tab)} />;
+                return <BoardView project={project} sprint={activeSprint} />;
             case 'sprints':
                 return <SprintManagement project={project} sprints={sprints} onSprintUpdate={fetchProjectData} />;
             case 'kpis':
                 return <KpiDashboard project={project} sprints={sprints} kpis={kpis} />;
             case 'retrospective':
                 return <RetrospectivePanel project={project} sprints={sprints} />;
+            case 'members':
+                return (
+                    <MembersPanel
+                        project={project}
+                        sprints={sprints}
+                        onMemberUpdate={fetchProjectData}
+                    />
+                );
             case 'members':
                 return (
                     <MembersPanel
