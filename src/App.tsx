@@ -34,6 +34,16 @@ import ForgotPasswordPage from "./components/auth/ForgotPasswordPage";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import { ProjectsListPage } from "./components/filrouge/projects/ProjectsListPage";
 import { ProjectDetailPage } from "./components/filrouge/project/ProjectDetailPage";
+import ModuleDetailsPage from "./pages/ModuleDetailsPage";
+import LearningPage from "./pages/LearningPage";
+import FormateurQuizDashboard from "./pages/quizzes/formateur/FormateurQuizDashboard";
+import AvailableQuizzesPage from "./pages/quizzes/bootcamper/AvailableQuizzesPage";
+import CreateQuizPage from "./pages/quizzes/formateur/create/CreateQuizPage";
+import TakeQuizPage from "./pages/quizzes/bootcamper/player/TakeQuizPage";
+import MyQuizResults from "./pages/quizzes/bootcamper/MyQuizResults";
+import FormateurQuizResultsPage from "./pages/quizzes/formateur/FormateurQuizResultsPage";
+import EditQuizPage from "./pages/quizzes/formateur/EditQuizPage";
+import QuizPreviewPage from "./pages/quizzes/formateur/QuizPreviewPage";
 
 export default function App() {
   return (
@@ -85,6 +95,27 @@ export default function App() {
             {/* Fil Rouge Projects */}
             <Route path="/projects" element={<ProjectsListPage />} />
             <Route path="/projects/:projectId" element={<ProjectDetailPage />} />
+
+            <Route path="/learning" element={<LearningPage />} />
+            <Route path="/learning/:moduleId" element={<ModuleDetailsPage />} />
+
+            {/* QUIZ MODULE */}
+            <Route element={<ProtectedRoute allowedRoles={["FORMATEUR"]} />}>
+              <Route path="/quizzes/formateur" element={<FormateurQuizDashboard />} />
+              <Route path="/quizzes/create" element={<CreateQuizPage />} />
+              <Route path="/quizzes/formateur/results" element={<FormateurQuizResultsPage />} />
+              <Route path="/quizzes/:quizId" element={<QuizPreviewPage />} />
+              <Route path="/quizzes/:quizId/edit" element={<EditQuizPage />} />
+
+            </Route>
+
+            <Route element={<ProtectedRoute allowedRoles={["BOOTCAMPER"]} />}>
+              <Route path="/quizzes" element={<AvailableQuizzesPage />} />
+              <Route path="/quizzes/my-results" element={<MyQuizResults />} />
+              <Route path="/quizzes/:quizId" element={<TakeQuizPage />} />
+            </Route>
+
+
 
             <Route path="/account-settings" element={<AccountSettings />} />
           </Route>

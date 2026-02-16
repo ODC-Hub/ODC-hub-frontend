@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState, useContext } from "react";
 import api from "../../api/axios";
 import { toast } from "react-toastify";
@@ -16,7 +17,6 @@ import {
   TableRow,
 } from "../../components/ui/table";
 
-import Badge from "../../components/ui/badge/Badge";
 import { AuthContext } from "../../context/AuthContext";
 
 /* =========================

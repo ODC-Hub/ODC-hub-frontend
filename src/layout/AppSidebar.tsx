@@ -18,6 +18,7 @@ import { useSidebar } from "../context/SidebarContext";
 import SidebarWidget from "./SidebarWidget";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { BookIcon } from "lucide-react";
 
 type NavItem = {
   name: string;
@@ -30,7 +31,11 @@ type NavItem = {
 const AppSidebar: React.FC = () => {
   const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
   const location = useLocation();const auth = useContext(AuthContext);
-  const isAdmin = auth?.user?.role === "ADMIN";
+  const role = auth?.user?.role;
+  const isAdmin = role === "ADMIN";
+  const isFormateur = role === "FORMATEUR";
+  const isBootcamper = role === "BOOTCAMPER";
+
 
   const navItems: NavItem[] = [
   {
@@ -62,6 +67,12 @@ const AppSidebar: React.FC = () => {
       ]
     : []),
 
+    {
+      icon: <BookIcon />, // or any icon
+      name: "Learning",
+      path: "/learning",
+    },
+
   /*{
     name: "Forms",
     icon: <ListIcon />,
@@ -79,9 +90,51 @@ const AppSidebar: React.FC = () => {
     icon: <PageIcon />,
     subItems: [
       { name: "Projects", path: "/projects", pro: false },
-      { name: "404 Error", path: "/error-404", pro: false },
     ],
   },
+  ...(isFormateur
+  ? [
+      {
+        icon: <BookIcon />,
+        name: "Quizzes",
+        subItems: [
+          {
+            name: "My Quizzes",
+            path: "/quizzes/formateur",
+          },
+          {
+            name: "Create Quiz",
+            path: "/quizzes/create",
+          },
+          {
+            name: "Quiz Results",
+            path: "/quizzes/formateur/results",
+          }
+
+        ],
+      },
+    ]
+  : []),
+
+...(isBootcamper
+  ? [
+      {
+        icon: <BookIcon />,
+        name: "Quizzes",
+        subItems: [
+          {
+            name: "Available Quizzes",
+            path: "/quizzes",
+          },
+          {
+            name: "My Results",
+            path: "/quizzes/my-results",
+          },
+        ],
+      },
+    ]
+  : []),
+
 ];
 
 const othersItems: NavItem[] = [
