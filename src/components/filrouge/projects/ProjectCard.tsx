@@ -13,13 +13,13 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
     return (
         <Link to={`/projects/${project.id}`} className="block h-full">
-            <div className="h-full bg-white rounded-xl border border-gray-200 p-5 hover:shadow-lg hover:border-orange-200 transition-all group">
+            <div className="h-full bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 hover:shadow-lg hover:border-orange-200 dark:hover:border-orange-700 transition-all group">
                 <div className="flex justify-between items-start mb-4">
                     <div>
-                        <h3 className="font-bold text-lg text-gray-900 group-hover:text-orange-600 transition-colors">
+                        <h3 className="font-bold text-lg text-gray-900 dark:text-white group-hover:text-orange-600 transition-colors">
                             {project.name}
                         </h3>
-                        <p className="text-sm text-gray-500 line-clamp-2 mt-1">
+                        <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mt-1">
                             {project.description}
                         </p>
                     </div>
@@ -37,24 +37,24 @@ export function ProjectCard({ project }: ProjectCardProps) {
                                 className="transition-all duration-1000"
                             />
                         </svg>
-                        <span className="absolute text-[10px] font-bold text-gray-700">{project.progress || 0}%</span>
+                        <span className="absolute text-[10px] font-bold text-gray-700 dark:text-gray-300">{project.progress || 0}%</span>
                     </div>
                 </div>
 
                 <div className="space-y-3">
                     {/* Active Sprint */}
-                    <div className="flex items-center gap-2 text-sm text-gray-600 bg-gray-50 p-2 rounded-lg">
+                    <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-700 p-2 rounded-lg">
                         <Activity className="w-4 h-4 text-orange-500" />
                         <span className="font-medium">Sprint:</span>
                         <span className="truncate">{activeSprint ? activeSprint.name : 'No active sprint'}</span>
                     </div>
 
                     {/* KPI Summary */}
-                    <div className="flex items-center justify-between text-xs text-gray-500 pt-2 border-t">
+                    <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 pt-2 border-t border-gray-100 dark:border-gray-700">
                         <div className="flex items-center gap-1.5">
                             <Users className="w-3.5 h-3.5" />
                             <span>{project.members?.length || 0} Members</span>
-                            
+
                         </div>
 
                         <div className="flex items-center gap-1.5">

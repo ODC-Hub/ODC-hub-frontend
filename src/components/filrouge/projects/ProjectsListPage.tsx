@@ -33,13 +33,13 @@ export function ProjectsListPage() {
     );
 
     return (
-        <div className="min-h-screen bg-gray-50 p-6">
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
             <div className="max-w-7xl mx-auto space-y-8">
                 {/* Header */}
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
-                        <h1 className="text-3xl font-bold text-gray-900">Projects</h1>
-                        <p className="text-gray-500">Manage your team projects and sprints</p>
+                        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Projects</h1>
+                        <p className="text-gray-500 dark:text-gray-400">Manage your team projects and sprints</p>
                     </div>
                     <div className="flex gap-3">
                         <div className="relative">
@@ -47,12 +47,12 @@ export function ProjectsListPage() {
                             <input
                                 type="text"
                                 placeholder="Search projects..."
-                                className="pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none w-64"
+                                className="pl-10 pr-4 py-2 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none w-64 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
                         </div>
-                        <Button variant="primary" onClick={() => setCreateModalOpen(true)}>
+                        <Button className=' h-10' variant="primary" onClick={() => setCreateModalOpen(true)}>
                             <Plus className="w-4 h-4 mr-2" />
                             New Project
                         </Button>
@@ -68,7 +68,7 @@ export function ProjectsListPage() {
 
                 {filteredProjects.length === 0 && (
                     <div className="text-center py-20">
-                        <p className="text-gray-500 text-lg">No projects found.</p>
+                        <p className="text-gray-500 dark:text-gray-400 text-lg">No projects found.</p>
                     </div>
                 )}
             </div>

@@ -16,7 +16,6 @@ import {
     BarChart3,
     MessageSquare,
     ChevronLeft,
-    Settings,
     UserPlus,
     Users
 } from 'lucide-react';
@@ -81,7 +80,7 @@ export function ProjectDetailPage() {
             <div className="flex items-center justify-center h-screen">
                 <div className="text-center">
                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto mb-4"></div>
-                    <p className="text-gray-600">Loading project...</p>
+                    <p className="text-gray-600 dark:text-gray-400">Loading project...</p>
                 </div>
             </div>
         );
@@ -129,14 +128,14 @@ export function ProjectDetailPage() {
     };
 
     return (
-        <div className="flex h-screen bg-gray-50">
+        <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
             {/* Sidebar Navigation */}
-            <div className="w-64 bg-white border-r border-gray-200 flex flex-col">
+            <div className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col">
                 {/* Back to Projects */}
-                <div className="p-4 border-b border-gray-200">
+                <div className="p-4 border-b border-gray-200 dark:border-gray-700">
                     <Link
                         to="/projects"
-                        className="flex items-center gap-2 text-gray-600 hover:text-orange-600 transition-colors"
+                        className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-500 transition-colors"
                     >
                         <ChevronLeft className="w-4 h-4" />
                         <span className="text-sm font-medium">Projects</span>
@@ -144,9 +143,9 @@ export function ProjectDetailPage() {
                 </div>
 
                 {/* Project Info */}
-                <div className="p-4 border-b border-gray-200">
-                    <h2 className="font-bold text-lg text-gray-900 mb-1 truncate">{project.name}</h2>
-                    <p className="text-sm text-gray-500 line-clamp-2">{project.description}</p>
+                <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+                    <h2 className="font-bold text-lg text-gray-900 dark:text-white mb-1 truncate">{project.name}</h2>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2">{project.description}</p>
 
                     {/* Team Members Preview */}
                     <div className="flex items-center gap-2 mt-3">
@@ -154,7 +153,7 @@ export function ProjectDetailPage() {
                             {project.members.slice(0, 4).map((memberId, idx) => (
                                 <div
                                     key={memberId}
-                                    className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 border-2 border-white flex items-center justify-center text-white text-xs font-medium"
+                                    className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 border-2 border-white dark:border-gray-800 flex items-center justify-center text-white text-xs font-medium"
                                     style={{ zIndex: 10 - idx }}
                                 >
                                     {idx + 1}
@@ -162,9 +161,9 @@ export function ProjectDetailPage() {
                             ))}
                         </div>
                         {project.members.length > 4 && (
-                            <span className="text-xs text-gray-500">+{project.members.length - 4}</span>
+                            <span className="text-xs text-gray-500 dark:text-gray-400">+{project.members.length - 4}</span>
                         )}
-                        <button className="ml-auto p-1 hover:bg-gray-100 rounded">
+                        <button className="ml-auto p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded">
                             <UserPlus className="w-4 h-4 text-gray-400" />
                         </button>
                     </div>
@@ -180,8 +179,8 @@ export function ProjectDetailPage() {
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id)}
                                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg mb-1 transition-all ${isActive
-                                    ? 'bg-orange-50 text-orange-600 font-medium'
-                                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                                    ? 'bg-orange-50 dark:bg-orange-900/20 text-orange-600 font-medium'
+                                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white'
                                     }`}
                             >
                                 <Icon className={`w-5 h-5 ${isActive ? 'text-orange-600' : 'text-gray-400'}`} />
@@ -191,7 +190,7 @@ export function ProjectDetailPage() {
                     })}
                 </nav>
 
-                
+
             </div>
 
             {/* Main Content Area */}

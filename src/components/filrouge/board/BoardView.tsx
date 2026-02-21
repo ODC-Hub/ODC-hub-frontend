@@ -93,7 +93,7 @@ export function BoardView({ project, sprint }: BoardViewProps) {
             if (modalMode === 'create') {
                 await workItemApi.createWorkItem(project.id, sprint.id, data);
                 toast.success("Work item created");
-            } else if (selectedItem) {          
+            } else if (selectedItem) {
                 toast.success("Work item updated");
             }
             setIsModalOpen(false);
@@ -117,11 +117,11 @@ export function BoardView({ project, sprint }: BoardViewProps) {
     if (!sprint) {
         return (
             <div className="flex flex-col items-center justify-center h-[500px] text-center space-y-4">
-                <div className="bg-orange-100 p-4 rounded-full">
+                <div className="bg-orange-100 dark:bg-orange-900/30 p-4 rounded-full">
                     <Play className="w-8 h-8 text-orange-600" />
                 </div>
-                <h2 className="text-xl font-bold text-gray-900">No Active Sprint</h2>
-                <p className="text-gray-500 max-w-md">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white">No Active Sprint</h2>
+                <p className="text-gray-500 dark:text-gray-400 max-w-md">
                     Start a planned sprint to begin tracking work items on the board.
                 </p>
             </div>

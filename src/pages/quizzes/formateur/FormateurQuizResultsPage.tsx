@@ -12,15 +12,15 @@ export default function FormateurQuizResultsPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <div className="p-6">Loading…</div>;
+  if (loading) return <div className="p-6 text-gray-500 dark:text-gray-400">Loading…</div>;
 
   return (
     <div className="p-6 space-y-6">
-      <h1 className="text-2xl font-semibold">Quiz Results</h1>
+      <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">Quiz Results</h1>
 
-      <div className="bg-white border rounded-xl overflow-x-auto">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-x-auto">
         <table className="w-full text-sm">
-          <thead className="bg-gray-50">
+          <thead className="bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
             <tr>
               <th className="p-3 text-left">Bootcamper</th>
               <th className="p-3 text-left">Quiz</th>
@@ -33,28 +33,27 @@ export default function FormateurQuizResultsPage() {
           </thead>
           <tbody>
             {results.map((r, i) => (
-              <tr key={i} className="border-t">
-                <td className="p-3">{r.bootcamperName}</td>
-                <td className="p-3">{r.quizTitle}</td>
-                <td className="p-3">{r.module}</td>
-                <td className="p-3 text-center">
+              <tr key={i} className="border-t border-gray-100 dark:border-gray-700">
+                <td className="p-3 text-gray-900 dark:text-white">{r.bootcamperName}</td>
+                <td className="p-3 text-gray-900 dark:text-white">{r.quizTitle}</td>
+                <td className="p-3 text-gray-700 dark:text-gray-300">{r.module}</td>
+                <td className="p-3 text-center text-gray-700 dark:text-gray-300">
                   {r.score}/{r.totalQuestions} ({r.percentage}%)
                 </td>
                 <td className="p-3 text-center">
                   <span
-                    className={`px-2 py-1 rounded text-xs ${
-                      r.passed
-                        ? "bg-green-100 text-green-700"
-                        : "bg-red-100 text-red-700"
-                    }`}
+                    className={`px-2 py-1 rounded text-xs ${r.passed
+                        ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
+                        : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
+                      }`}
                   >
                     {r.passed ? "Passed" : "Failed"}
                   </span>
                 </td>
-                <td className="p-3 text-center">
+                <td className="p-3 text-center text-gray-700 dark:text-gray-300">
                   {Math.floor(r.timeTakenSeconds / 60)} min
                 </td>
-                <td className="p-3 text-center">
+                <td className="p-3 text-center text-gray-500 dark:text-gray-400">
                   {new Date(r.submittedAt).toLocaleDateString()}
                 </td>
               </tr>

@@ -24,25 +24,25 @@ export default function TakeQuizPage() {
   /* ================= FETCH QUIZ ================= */
 
   useEffect(() => {
-  // 🚨 HARD GUARD
-  if (!quizId) return;
-  if (quizId === "my-results") return;
+    // 🚨 HARD GUARD
+    if (!quizId) return;
+    if (quizId === "my-results") return;
 
-  const fetchQuiz = async () => {
-    try {
-      const data = await getQuizForBootcamper(quizId);
-      setQuiz(data);
-      setTimeLeft(data.durationSeconds);
-      startTimeRef.current = Date.now();
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const fetchQuiz = async () => {
+      try {
+        const data = await getQuizForBootcamper(quizId);
+        setQuiz(data);
+        setTimeLeft(data.durationSeconds);
+        startTimeRef.current = Date.now();
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  fetchQuiz();
-}, [quizId]);
+    fetchQuiz();
+  }, [quizId]);
 
 
   /* ================= SUBMIT ================= */
@@ -87,11 +87,11 @@ export default function TakeQuizPage() {
   /* ================= UI STATES ================= */
 
   if (loading) {
-    return <div className="p-6">Loading quiz…</div>;
+    return <div className="p-6 text-gray-500 dark:text-gray-400">Loading quiz…</div>;
   }
 
   if (!quiz) {
-    return <div className="p-6">Quiz not found</div>;
+    return <div className="p-6 text-gray-500 dark:text-gray-400">Quiz not found</div>;
   }
 
   const currentQuestion = quiz.questions[currentIndex];
@@ -100,7 +100,7 @@ export default function TakeQuizPage() {
     <div className="p-6 max-w-4xl mx-auto space-y-6">
       {/* Header */}
       <div className="flex justify-between items-center">
-        <h1 className="text-xl font-semibold">{quiz.title}</h1>
+        <h1 className="text-xl font-semibold text-gray-900 dark:text-white">{quiz.title}</h1>
         <QuizTimer timeLeft={timeLeft} onTick={setTimeLeft} />
       </div>
 
@@ -121,12 +121,12 @@ export default function TakeQuizPage() {
         <button
           disabled={currentIndex === 0}
           onClick={() => setCurrentIndex((i) => i - 1)}
-          className="px-4 py-2 border rounded-lg disabled:opacity-50"
+          className="px-4 py-2 border border-gray-200 dark:border-gray-600 rounded-lg disabled:opacity-50 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800"
         >
           Previous
         </button>
 
-        <span className="text-sm text-gray-500">
+        <span className="text-sm text-gray-500 dark:text-gray-400">
           Question {currentIndex + 1} / {quiz.questions.length}
         </span>
 

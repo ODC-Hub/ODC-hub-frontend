@@ -28,7 +28,6 @@ const statusColorClasses = {
   offline: "bg-error-400",
   busy: "bg-warning-500",
 };
-
 const Avatar: React.FC<AvatarProps> = ({
   src,
   alt = "User Avatar",
@@ -36,11 +35,13 @@ const Avatar: React.FC<AvatarProps> = ({
   status = "none",
 }) => {
   return (
-    <div className={`relative  rounded-full ${sizeClasses[size]}`}>
-      {/* Avatar Image */}
-      <img src={src} alt={alt} className="object-cover rounded-full" />
+    <div className={`relative rounded-full overflow-hidden ${sizeClasses[size]}`}>
+      <img
+        src={src}
+        alt={alt}
+        className="object-cover w-full h-full rounded-lg"
+      />
 
-      {/* Status Indicator */}
       {status !== "none" && (
         <span
           className={`absolute bottom-0 right-0 rounded-full border-[1.5px] border-white dark:border-gray-900 ${

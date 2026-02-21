@@ -95,8 +95,8 @@ export function MembersPanel({ project, sprints, onMemberUpdate }: MembersPanelP
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-1">Team Members</h2>
-          <p className="text-sm text-gray-600">{(project.members || []).length} members in this project</p>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">Team Members</h2>
+          <p className="text-sm text-gray-600 dark:text-gray-400">{(project.members || []).length} members in this project</p>
         </div>
         <Button
           onClick={() => setShowAddModal(true)}
@@ -115,17 +115,19 @@ export function MembersPanel({ project, sprints, onMemberUpdate }: MembersPanelP
           ).length || 0;
 
           return (
-            <div key={user.id} className="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-shadow relative group">
+            <div key={user.id} className="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5 shadow-sm hover:shadow-md transition-shadow relative group">
               <div className="flex items-start gap-4">
                 <Avatar
+                
                   src={user.avatarFileId ? `http://localhost:8080/api/users/avatar/${user.avatarFileId}` : `https://ui-avatars.com/api/?name=${user.fullName || user.email}&background=random`}
                   size="large"
+                  
                 />
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-bold text-gray-900 truncate">{user.fullName || 'No Name'}</h3>
+                  <h3 className="font-bold text-gray-900 dark:text-white truncate">{user.fullName || 'No Name'}</h3>
                   <div className="flex items-center gap-2 mb-3">
                     <Mail className="w-3.5 h-3.5 text-gray-400" />
-                    <p className="text-sm text-gray-500 truncate">{user.email}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 truncate">{user.email}</p>
                   </div>
                   <Badge variant="light" color="primary" size="sm">
                     {memberWorkItems} active work items
@@ -152,14 +154,14 @@ export function MembersPanel({ project, sprints, onMemberUpdate }: MembersPanelP
       {/* Add Member Modal */}
       <Modal isOpen={showAddModal} onClose={() => setShowAddModal(false)} className="max-w-lg">
         <div className="p-6">
-          <h3 className="text-xl font-bold text-gray-900 mb-4">Add Team Member</h3>
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Add Team Member</h3>
 
           <div className="relative mb-6">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
               type="text"
               placeholder="Search by name or email..."
-              className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all text-sm"
+              className="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all text-sm text-gray-900 dark:text-white"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -170,7 +172,7 @@ export function MembersPanel({ project, sprints, onMemberUpdate }: MembersPanelP
               filteredAvailableUsers.map((user) => (
                 <div
                   key={user.id}
-                  className="flex items-center gap-3 p-3 rounded-xl hover:bg-orange-50 border border-transparent hover:border-orange-100 cursor-pointer transition-all group"
+                  className="flex items-center gap-3 p-3 rounded-xl hover:bg-orange-50 dark:hover:bg-orange-900/20 border border-transparent hover:border-orange-100 dark:hover:border-orange-800 cursor-pointer transition-all group"
                   onClick={() => handleAddMember(user.id)}
                 >
                   <Avatar
@@ -178,10 +180,10 @@ export function MembersPanel({ project, sprints, onMemberUpdate }: MembersPanelP
                     size="medium"
                   />
                   <div className="flex-1 min-w-0">
-                    <p className="font-bold text-sm text-gray-900 truncate group-hover:text-orange-600 transition-colors">
+                    <p className="font-bold text-sm text-gray-900 dark:text-white truncate group-hover:text-orange-600 transition-colors">
                       {user.fullName || 'No Name'}
                     </p>
-                    <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{user.email}</p>
                   </div>
                   <div className="opacity-0 group-hover:opacity-100 transition-opacity">
                     <Plus className="w-5 h-5 text-orange-500" />

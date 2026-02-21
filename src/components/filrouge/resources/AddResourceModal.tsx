@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { X, Upload, AlertCircle, Link as LinkIcon } from 'lucide-react';
+import { Upload, AlertCircle, Link as LinkIcon } from 'lucide-react';
 import { resourceApi } from '../../../api/resources';
 import { ResourceType } from '../../../types/resource';
 import { MODULES } from './constants';
 import { userApi } from '../../../api/users';
 import { UserResponseDto } from '../../../types/user';
+import { Modal } from '@/components/ui/modal';
 
 interface AddResourceModalProps {
     onClose: () => void;
@@ -89,24 +90,21 @@ export function AddResourceModal({ onClose, onSuccess, moduleId }: AddResourceMo
     };
 
     return (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 backdrop-blur-sm">
-            <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden max-h-[90vh] overflow-y-auto">
-                <div className="px-8 py-6 flex justify-between items-start">
+        <Modal isOpen={true} onClose={onClose} className="max-w-2xl w-full mx-4 ">
+            <div>
+                <div className="px-8 py-6 flex items-start">
                     <div>
-                        <h3 className="text-xl font-bold text-gray-900">Add New Resource</h3>
-                        <p className="text-sm text-gray-500 mt-1">Share learning materials with your students</p>
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white">Add New Resource</h3>
+                        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Share learning materials with your students</p>
                     </div>
-                    <button onClick={onClose} className="text-gray-400 hover:text-gray-600 transition-colors">
-                        <X className="w-6 h-6" />
-                    </button>
                 </div>
 
                 <form onSubmit={handleSubmit} className="px-8 pb-8 space-y-6">
                     <div className="space-y-1.5">
-                        <label className="block text-sm font-bold text-gray-900">Title *</label>
+                        <label className="block text-sm font-bold text-gray-900 dark:text-white">Title *</label>
                         <input
                             type="text"
-                            className="w-full px-4 py-3 text-sm bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-orange-500 outline-none text-gray-700 placeholder-gray-400"
+                            className="w-full px-4 py-3 text-sm bg-gray-50 dark:bg-gray-700 border-none rounded-xl focus:ring-2 focus:ring-orange-500 outline-none text-gray-700 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                             placeholder="Enter resource title"
@@ -115,9 +113,9 @@ export function AddResourceModal({ onClose, onSuccess, moduleId }: AddResourceMo
                     </div>
 
                     <div className="space-y-1.5">
-                        <label className="block text-sm font-bold text-gray-900">Module *</label>
+                        <label className="block text-sm font-bold text-gray-900 dark:text-white">Module *</label>
                         <select
-                            className="w-full px-4 py-3 text-sm bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-orange-500 outline-none text-gray-700"
+                            className="w-full px-4 py-3 text-sm bg-gray-50 dark:bg-gray-700 border-none rounded-xl focus:ring-2 focus:ring-orange-500 outline-none text-gray-700 dark:text-gray-200"
                             value={selectedModuleId}
                             onChange={(e) => setSelectedModuleId(e.target.value)}
                             required
@@ -132,9 +130,9 @@ export function AddResourceModal({ onClose, onSuccess, moduleId }: AddResourceMo
                     </div>
 
                     <div className="space-y-1.5">
-                        <label className="block text-sm font-bold text-gray-900">Type *</label>
+                        <label className="block text-sm font-bold text-gray-900 dark:text-white">Type *</label>
                         <select
-                            className="w-full px-4 py-3 text-sm bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-orange-500 outline-none text-gray-700"
+                            className="w-full px-4 py-3 text-sm bg-gray-50 dark:bg-gray-700 border-none rounded-xl focus:ring-2 focus:ring-orange-500 outline-none text-gray-700 dark:text-gray-200"
                             value={type}
                             onChange={(e) => setType(e.target.value as ResourceType)}
                             required
@@ -148,8 +146,8 @@ export function AddResourceModal({ onClose, onSuccess, moduleId }: AddResourceMo
 
                     {/* Assignment Section for HOMEWORK */}
                     {type === 'HOMEWORK' && (
-                        <div className="space-y-4 p-6 bg-orange-50 rounded-xl border border-orange-100">
-                            <h4 className="font-bold text-gray-900 text-sm">Assignment</h4>
+                        <div className="space-y-4 p-6 bg-orange-50 dark:bg-orange-900/20 rounded-xl border border-orange-100 dark:border-orange-800">
+                            <h4 className="font-bold text-gray-900 dark:text-white text-sm">Assignment</h4>
 
                             <div className="space-y-3">
                                 <label className="flex items-center gap-3 cursor-pointer">
@@ -160,7 +158,7 @@ export function AddResourceModal({ onClose, onSuccess, moduleId }: AddResourceMo
                                         onChange={() => setAssignToAll(true)}
                                         className="w-4 h-4 text-orange-600 focus:ring-orange-500"
                                     />
-                                    <span className="text-sm font-medium text-gray-700">All Bootcampers</span>
+                                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">All Bootcampers</span>
                                 </label>
 
                                 <label className="flex items-center gap-3 cursor-pointer">
@@ -171,14 +169,14 @@ export function AddResourceModal({ onClose, onSuccess, moduleId }: AddResourceMo
                                         onChange={() => setAssignToAll(false)}
                                         className="w-4 h-4 text-orange-600 focus:ring-orange-500"
                                     />
-                                    <span className="text-sm font-medium text-gray-700">Select Bootcampers</span>
+                                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Select Bootcampers</span>
                                 </label>
                             </div>
 
                             {!assignToAll && (
-                                <div className="mt-4 p-4 bg-white rounded-lg border border-gray-200">
+                                <div className="mt-4 p-4 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
                                     <div className="flex justify-between items-center mb-3">
-                                        <h5 className="text-sm font-bold text-gray-700">Team Members (Bootcampers)</h5>
+                                        <h5 className="text-sm font-bold text-gray-700 dark:text-gray-300">Team Members (Bootcampers)</h5>
                                         <button
                                             type="button"
                                             onClick={() => setSelectedUsers(users.map(u => u.id))}
@@ -189,15 +187,15 @@ export function AddResourceModal({ onClose, onSuccess, moduleId }: AddResourceMo
                                     </div>
 
                                     {loadingUsers ? (
-                                        <p className="text-sm text-gray-500">Loading bootcampers...</p>
+                                        <p className="text-sm text-gray-500 dark:text-gray-400">Loading bootcampers...</p>
                                     ) : users.length === 0 ? (
-                                        <p className="text-sm text-gray-500">No bootcampers found</p>
+                                        <p className="text-sm text-gray-500 dark:text-gray-400">No bootcampers found</p>
                                     ) : (
                                         <div className="space-y-2 max-h-60 overflow-y-auto">
                                             {users.map((user) => (
                                                 <label
                                                     key={user.id}
-                                                    className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors"
+                                                    className="flex items-center gap-3 p-2 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-lg cursor-pointer transition-colors"
                                                 >
                                                     <input
                                                         type="checkbox"
@@ -214,7 +212,7 @@ export function AddResourceModal({ onClose, onSuccess, moduleId }: AddResourceMo
                                                     <div className="flex items-center gap-3 flex-1">
                                                         {user.avatarFileId ? (
                                                             <img
-                                                                src={`http://localhost:8080/api/avatars/${user.avatarFileId}`}
+                                                                src={`http://localhost:8080/api/users/avatar/${user.avatarFileId}`}
                                                                 alt={user.fullName || user.email}
                                                                 className="w-10 h-10 rounded-full object-cover"
                                                             />
@@ -224,10 +222,10 @@ export function AddResourceModal({ onClose, onSuccess, moduleId }: AddResourceMo
                                                             </div>
                                                         )}
                                                         <div className="flex-1">
-                                                            <p className="text-sm font-medium text-gray-900">
+                                                            <p className="text-sm font-medium text-gray-900 dark:text-white">
                                                                 {user.fullName || 'Bootcamper'}
                                                             </p>
-                                                            <p className="text-xs text-gray-500">{user.email}</p>
+                                                            <p className="text-xs text-gray-500 dark:text-gray-400">{user.email}</p>
                                                         </div>
                                                     </div>
                                                 </label>
@@ -240,9 +238,9 @@ export function AddResourceModal({ onClose, onSuccess, moduleId }: AddResourceMo
                     )}
 
                     <div className="space-y-1.5">
-                        <label className="block text-sm font-bold text-gray-900">Description *</label>
+                        <label className="block text-sm font-bold text-gray-900 dark:text-white">Description *</label>
                         <textarea
-                            className="w-full px-4 py-3 text-sm bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-orange-500 outline-none text-gray-700 placeholder-gray-400 min-h-[100px] resize-none"
+                            className="w-full px-4 py-3 text-sm bg-gray-50 dark:bg-gray-700 border-none rounded-xl focus:ring-2 focus:ring-orange-500 outline-none text-gray-700 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 min-h-[100px] resize-none"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                             placeholder="Describe what this resource covers..."
@@ -252,12 +250,12 @@ export function AddResourceModal({ onClose, onSuccess, moduleId }: AddResourceMo
 
                     {type === 'LINK' ? (
                         <div className="space-y-1.5">
-                            <label className="block text-sm font-bold text-gray-900">Link URL</label>
+                            <label className="block text-sm font-bold text-gray-900 dark:text-white">Link URL</label>
                             <div className="relative">
                                 <LinkIcon className="absolute left-4 top-3.5 w-4 h-4 text-gray-400" />
                                 <input
                                     type="url"
-                                    className="w-full pl-10 pr-4 py-3 text-sm bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-orange-500 outline-none text-gray-700 placeholder-gray-400"
+                                    className="w-full pl-10 pr-4 py-3 text-sm bg-gray-50 dark:bg-gray-700 border-none rounded-xl focus:ring-2 focus:ring-orange-500 outline-none text-gray-700 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
                                     value={link}
                                     onChange={(e) => setLink(e.target.value)}
                                     placeholder="https://example.com"
@@ -267,8 +265,8 @@ export function AddResourceModal({ onClose, onSuccess, moduleId }: AddResourceMo
                         </div>
                     ) : (
                         <div className="space-y-1.5">
-                            <label className="block text-sm font-bold text-gray-900">Upload File *</label>
-                            <div className="border-2 border-dashed border-gray-200 rounded-xl p-8 text-center hover:bg-gray-50 transition-colors cursor-pointer relative bg-white">
+                            <label className="block text-sm font-bold text-gray-900 dark:text-white">Upload File *</label>
+                            <div className="border-2 border-dashed border-gray-200 dark:border-gray-600 rounded-xl p-8 text-center hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors cursor-pointer relative bg-white dark:bg-gray-700/30">
                                 <input
                                     type="file"
                                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
@@ -279,11 +277,11 @@ export function AddResourceModal({ onClose, onSuccess, moduleId }: AddResourceMo
                                     <div className="mb-2">
                                         <Upload className="w-8 h-8 text-gray-300" />
                                     </div>
-                                    <p className="text-sm font-medium text-gray-700">
+                                    <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
                                         {file ? file.name : 'Upload your file'}
                                     </p>
                                     {!file && (
-                                        <button type="button" className="mt-2 px-4 py-2 text-sm font-semibold text-gray-700 bg-white border border-gray-200 rounded-lg shadow-sm">
+                                        <button type="button" className="mt-2 px-4 py-2 text-sm font-semibold text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg shadow-sm">
                                             Choose File
                                         </button>
                                     )}
@@ -293,7 +291,7 @@ export function AddResourceModal({ onClose, onSuccess, moduleId }: AddResourceMo
                     )}
 
                     {error && (
-                        <div className="flex items-center gap-2 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
+                        <div className="flex items-center gap-2 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl text-red-700 dark:text-red-400 text-sm">
                             <AlertCircle className="w-5 h-5 flex-shrink-0" />
                             <span>{error}</span>
                         </div>
@@ -303,7 +301,7 @@ export function AddResourceModal({ onClose, onSuccess, moduleId }: AddResourceMo
                         <button
                             type="button"
                             onClick={onClose}
-                            className="flex-1 px-6 py-3 text-sm font-bold text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors"
+                            className="flex-1 px-6 py-3 text-sm font-bold text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-xl transition-colors"
                         >
                             Cancel
                         </button>
@@ -317,6 +315,6 @@ export function AddResourceModal({ onClose, onSuccess, moduleId }: AddResourceMo
                     </div>
                 </form>
             </div>
-        </div>
+        </Modal>
     );
 }

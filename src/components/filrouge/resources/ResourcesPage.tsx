@@ -94,15 +94,15 @@ export default function ResourcesPage() {
         const baseClasses = "px-2.5 py-1 text-xs font-bold uppercase tracking-wider rounded-sm";
         switch (type) {
             case 'PDF':
-                return <span className={`${baseClasses} bg-blue-100 text-blue-700 rounded-xl border border-blue-300 `}>PDF</span>;
+                return <span className={`${baseClasses} bg-blue-100 text-blue-700 rounded-xl border border-blue-300 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-700`}>PDF</span>;
             case 'LINK':
-                return <span className={`${baseClasses} bg-green-100 text-green-700 rounded-xl border border-green-300 `}>LINK</span>;
+                return <span className={`${baseClasses} bg-green-100 text-green-700 rounded-xl border border-green-300 dark:bg-green-900/30 dark:text-green-400 dark:border-green-700`}>LINK</span>;
             case 'HOMEWORK':
-                return <span className={`${baseClasses} bg-orange-100 text-orange-700 rounded-xl border border-orange-300 `}>HOMEWORK</span>;
+                return <span className={`${baseClasses} bg-orange-100 text-orange-700 rounded-xl border border-orange-300 dark:bg-orange-900/30 dark:text-orange-400 dark:border-orange-700`}>HOMEWORK</span>;
             case 'ATELIER':
-                return <span className={`${baseClasses} bg-purple-100 text-purple-700 rounded-xl border border-purple-300 `}>ATELIER</span>;
+                return <span className={`${baseClasses} bg-purple-100 text-purple-700 rounded-xl border border-purple-300 dark:bg-purple-900/30 dark:text-purple-400 dark:border-purple-700`}>ATELIER</span>;
             default:
-                return <span className={`${baseClasses} bg-gray-100 text-gray-700`}>{type}</span>;
+                return <span className={`${baseClasses} bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300`}>{type}</span>;
         }
     };
 
@@ -116,17 +116,17 @@ export default function ResourcesPage() {
     return (
         <div className="space-y-6">
             {/* Header */}
-            <div className="flex items-center justify-between pb-6 border-b border-gray-100">
+            <div className="flex items-center justify-between pb-6 border-b border-gray-100 dark:border-gray-700">
                 <div>
                     {isFormateur ? (
                         <>
-                            <h2 className="text-2xl font-bold text-gray-900">Manage Resources</h2>
-                            <p className="text-sm text-gray-500 mt-1">Upload and organize learning materials for your bootcampers</p>
+                            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Manage Resources</h2>
+                            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Upload and organize learning materials for your bootcampers</p>
                         </>
                     ) : (
                         <>
-                            <h2 className="text-2xl font-bold text-gray-900">Learning Resources</h2>
-                            <p className="text-sm text-gray-500 mt-1">Access course materials, workshops, and homework assignments</p>
+                            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Learning Resources</h2>
+                            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Access course materials, workshops, and homework assignments</p>
                         </>
                     )}
                 </div>
@@ -135,13 +135,13 @@ export default function ResourcesPage() {
                     {/* Module Filter */}
                     <div className="relative">
                         <select
-                            className="bg-white border  border-gray-200 text-sm font-normal text-gray-900 py-2.5 px-4 pr-10 rounded-lg outline-none cursor-pointer hover:border-gray-300 transition-colors appearance-none min-w-[300px] shadow-sm"
+                            className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 text-sm font-normal text-gray-900 dark:text-white py-2.5 px-4 pr-10 rounded-lg outline-none cursor-pointer hover:border-gray-300 dark:hover:border-gray-500 transition-colors appearance-none min-w-[300px] shadow-sm"
                             value={selectedModuleId}
                             onChange={(e) => setSelectedModuleId(e.target.value)}
                         >
-                            <option value="all"  >All Modules</option>
+                            <option value="all">All Modules</option>
                             {MODULES.map((m) => (
-                                <option className='rounded-lg' key={m.id} value={m.id} >{m.name} </option>
+                                <option className='rounded-lg' key={m.id} value={m.id}>{m.name} </option>
                             ))}
                         </select>
                         <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none ">
@@ -165,16 +165,16 @@ export default function ResourcesPage() {
             {/* Content */}
             {isFormateur ? (
                 // TABLE VIEW FOR FORMATEUR
-                <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm ">
-                    <div className="px-6 py-4  bg-white flex justify-between items-center">
-                        <h3 className="font-semibold text-gray-700">
+                <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden shadow-sm">
+                    <div className="px-6 py-4 bg-white dark:bg-gray-800 flex justify-between items-center">
+                        <h3 className="font-semibold text-gray-700 dark:text-gray-300">
                             All Resources  ({resources.length})
                         </h3>
-                        {loading && <span className="text-xs text-gray-500 animate-pulse">Loading...</span>}
+                        {loading && <span className="text-xs text-gray-500 dark:text-gray-400 animate-pulse">Loading...</span>}
                     </div>
                     <table className="w-full text-left border-collapse">
                         <thead>
-                            <tr className=" text-sm font-semibold   border-b border-gray-100  tracking-wider">
+                            <tr className="text-sm font-semibold border-b border-gray-100 dark:border-gray-700 tracking-wider dark:text-gray-300">
                                 <th className="px-6 py-4">Title</th>
                                 <th className="px-6 py-4">Module</th>
                                 <th className="px-6 py-4">Type</th>
@@ -182,10 +182,10 @@ export default function ResourcesPage() {
                                 <th className="px-6 py-4 text-right">Actions</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-gray-100">
+                        <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
                             {resources.length === 0 ? (
                                 <tr>
-                                    <td colSpan={4} className="px-6 py-12 text-center text-gray-500 text-sm">
+                                    <td colSpan={4} className="px-6 py-12 text-center text-gray-500 dark:text-gray-400 text-sm">
                                         <div className="flex flex-col items-center gap-2">
                                             <p className="font-medium">No resources found in this module.</p>
                                             <p className="text-xs">Try selecting a different module or add a new resource.</p>
@@ -194,20 +194,20 @@ export default function ResourcesPage() {
                                 </tr>
                             ) : (
                                 resources.map((resource) => (
-                                    <tr key={resource.id} className="hover:bg-gray-50 transition-colors">
+                                    <tr key={resource.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                                         <td className="px-6 py-4">
-                                            <div className="font-medium text-gray-900">{resource.title}</div>
-                                            <div className="text-xs text-gray-500 mt-0.5 max-w-md truncate">{resource.description}</div>
+                                            <div className="font-medium text-gray-900 dark:text-white">{resource.title}</div>
+                                            <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 max-w-md truncate">{resource.description}</div>
                                         </td>
                                         <td className="px-6 py-4">
-                                            <span className="text-sm text-gray-700">
+                                            <span className="text-sm text-gray-700 dark:text-gray-300">
                                                 {MODULES.find(m => m.id === resource.moduleId)?.name || 'Unknown Module'}
                                             </span>
                                         </td>
                                         <td className="px-6 py-4 ">
                                             {getTypeBadge(resource.type)}
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-gray-500">
+                                        <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
                                             {new Date(resource.createdAt).toLocaleDateString()}
                                         </td>
                                         <td className="px-6 py-4 text-right">
@@ -217,7 +217,7 @@ export default function ResourcesPage() {
                                                         if (resource.gridFsFileId) resourceApi.viewFile(resource.gridFsFileId);
                                                         else if (resource.link) window.open(resource.link, '_blank');
                                                     }}
-                                                    className="text-gray-800 hover:text-gray-600 transition-colors"
+                                                    className="text-gray-800 dark:text-gray-300 hover:text-gray-600 dark:hover:text-white transition-colors"
                                                     title="View"
                                                 >
                                                     <Eye className="w-5 h-5" />
@@ -233,7 +233,7 @@ export default function ResourcesPage() {
                                                 )}
                                                 <button
                                                     onClick={() => handleDelete(resource.id)}
-                                                    className="text-red-600 hover:text-red-500   transition-colors"
+                                                    className="text-red-600 hover:text-red-500 transition-colors"
                                                     title="Delete"
                                                 >
                                                     <Trash2 className="w-4 h-" />
@@ -259,10 +259,9 @@ export default function ResourcesPage() {
                                 return (
                                     <div key={module.id} className="space-y-4">
                                         <div className="mb-4">
-                                            <h3 className="text-xl font-bold text-gray-900">
+                                            <h3 className="text-xl font-bold text-gray-900 dark:text-white">
                                                 {module.name}
                                             </h3>
-                                            {/* Optional: Add module description here if available in MODULES constant or derived */}
                                         </div>
                                         <div className="space-y-4">
                                             {moduleResources.map((resource) => (
@@ -280,27 +279,27 @@ export default function ResourcesPage() {
                             })}
 
                             {resources.length === 0 && !loading && (
-                                <div className="text-center py-12 bg-gray-50 rounded-xl border border-dashed border-gray-300">
-                                    <div className="text-gray-500">No resources found.</div>
+                                <div className="text-center py-12 bg-gray-50 dark:bg-gray-800 rounded-xl border border-dashed border-gray-300 dark:border-gray-600">
+                                    <div className="text-gray-500 dark:text-gray-400">No resources found.</div>
                                 </div>
                             )}
                         </div>
                     ) : (
                         // SINGLE MODULE VIEW
                         <div>
-                            <h3 className="text-lg font-bold text-gray-900 mb-4">
+                            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
                                 {selectedModuleName}
                             </h3>
 
                             {loading ? (
                                 <div className="space-y-4">
                                     {[1, 2, 3].map(i => (
-                                        <div key={i} className="h-32 bg-gray-100 rounded-xl animate-pulse"></div>
+                                        <div key={i} className="h-32 bg-gray-100 dark:bg-gray-700 rounded-xl animate-pulse"></div>
                                     ))}
                                 </div>
                             ) : resources.length === 0 ? (
-                                <div className="text-center py-12 bg-gray-50 rounded-xl border border-dashed border-gray-300">
-                                    <div className="text-gray-500">No resources found in this module.</div>
+                                <div className="text-center py-12 bg-gray-50 dark:bg-gray-800 rounded-xl border border-dashed border-gray-300 dark:border-gray-600">
+                                    <div className="text-gray-500 dark:text-gray-400">No resources found in this module.</div>
                                 </div>
                             ) : (
                                 <div className="space-y-4">
