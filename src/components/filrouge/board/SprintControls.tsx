@@ -18,18 +18,18 @@ export function SprintControls({
 }: SprintControlsProps) {
 
     return (
-        <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
             {/* Left: Sprint Info */}
             <div className="flex items-center gap-4">
                 <div>
                     <div className="flex items-center gap-2">
-                        <h2 className="text-lg font-bold text-gray-800">{sprint.name}</h2>
-                        <span className={`px-2 py-0.5 rounded text-xs font-bold ${sprint.status === 'ACTIVE' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'
+                        <h2 className="text-lg font-bold text-gray-800 dark:text-white">{sprint.name}</h2>
+                        <span className={`px-2 py-0.5 rounded text-xs font-bold ${sprint.status === 'ACTIVE' ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400' : 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400'
                             }`}>
                             {sprint.status}
                         </span>
                     </div>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
                         {sprint.startDate ? new Date(sprint.startDate).toLocaleDateString() : 'Not started'}
                         {' - '}
                         {sprint.endDate ? new Date(sprint.endDate).toLocaleDateString() : 'No end date'}
@@ -40,16 +40,16 @@ export function SprintControls({
             {/* Middle: Progress */}
             <div className="flex-1 max-w-md w-full mx-4">
                 <div className="flex justify-between text-sm mb-1">
-                    <span className="text-gray-600">Sprint Progress</span>
-                    <span className="font-bold text-gray-900">{progress}%</span>
+                    <span className="text-gray-600 dark:text-gray-400">Sprint Progress</span>
+                    <span className="font-bold text-gray-900 dark:text-white">{progress}%</span>
                 </div>
-                <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                <div className="h-2.5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
                     <div
                         className="h-full bg-orange-500 rounded-full transition-all duration-500"
                         style={{ width: `${progress}%` }}
                     />
                 </div>
-                <div className="flex justify-between text-xs text-gray-500 mt-1">
+                <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
                     <span>{completedEffort} pts done</span>
                     <span>{totalEffort} pts total</span>
                 </div>

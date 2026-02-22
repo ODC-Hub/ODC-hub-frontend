@@ -59,14 +59,14 @@ export default function QuestionCard({
   };
 
   return (
-    <div className="bg-white p-6 rounded-2xl border shadow-sm space-y-4">
+    <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl border dark:border-gray-700 shadow-sm space-y-4">
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h3 className="font-medium">
+          <h3 className="font-medium dark:text-white">
             Question {index + 1}
           </h3>
-          <p className="text-xs text-gray-400">
+          <p className="text-xs text-gray-400 dark:text-gray-500">
             Choose the correct answer(s)
           </p>
         </div>
@@ -80,7 +80,7 @@ export default function QuestionCard({
 
       {/* Question text */}
       <textarea
-        className="w-full border rounded-lg px-3 py-2"
+        className="w-full border dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500"
         placeholder="Enter the question text"
         value={question.text}
         onChange={(e) =>
@@ -90,7 +90,7 @@ export default function QuestionCard({
 
       {/* Question type */}
       <select
-        className="border rounded-lg px-3 py-2 w-52"
+        className="border dark:border-gray-600 rounded-lg px-3 py-2 w-52 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
         value={question.type}
         onChange={(e) =>
           onChange({
@@ -118,7 +118,7 @@ export default function QuestionCard({
             />
 
             <input
-              className="flex-1 border rounded-lg px-3 py-2"
+              className="flex-1 border dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               placeholder={`Option ${idx + 1}`}
               value={option.text}
               onChange={(e) =>
@@ -138,7 +138,7 @@ export default function QuestionCard({
 
       <button
         onClick={addOption}
-        className="text-sm text-blue-600 hover:underline"
+        className="text-sm text-blue-500 dark:text-blue-400 hover:underline"
       >
         + Add option
       </button>

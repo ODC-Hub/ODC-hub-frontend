@@ -39,14 +39,14 @@ export default function LearningPage() {
       : modules.filter((m) => m.category === selectedCategory);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-10">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-10">
       <div className="max-w-6xl mx-auto">
 
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-800">
+          <h1 className="text-3xl font-bold text-gray-800 dark:text-white">
             Learning Modules
           </h1>
-          <p className="text-gray-600 mt-2">
+          <p className="text-gray-600 dark:text-gray-400 mt-2">
             AI-powered learning paths based on your modules.
           </p>
         </div>
@@ -86,9 +86,9 @@ export default function LearningPage() {
                 <Link
                   key={module.id}
                   to={`/learning/${module.id}`}
-                  className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition"
+                  className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm hover:shadow-xl transition dark:border-gray-700"
                 >
-                  <span className="text-xs px-3 py-1 bg-blue-100 text-blue-600 rounded-full capitalize">
+                  <span className="text-xs px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full capitalize">
                     {module.category}
                   </span>
 

@@ -23,11 +23,8 @@ export const resourceApi = {
       formData.append('file', file);
     }
 
-    const response = await api.post<ResourceResponse>('/resources', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+   const response = await api.post<ResourceResponse>('/resources', formData);
+
     return response.data;
   },
 
@@ -45,11 +42,8 @@ export const resourceApi = {
     formData.append('data', new Blob([JSON.stringify(data)], { type: 'application/json' }));
     formData.append('file', file);
 
-    const response = await api.post<LivrableResponse>('/livrables', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    const response = await api.post<LivrableResponse>('/livrables', formData);
+
     return response.data;
   },
 
@@ -58,7 +52,8 @@ export const resourceApi = {
       responseType: 'blob',
     });
 
-    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const url = window.URL.createObjectURL(response.data);
+
     const link = document.createElement('a');
     link.href = url;
     link.setAttribute('download', filename);
@@ -73,7 +68,8 @@ export const resourceApi = {
       responseType: 'blob',
     });
 
-    const file = new Blob([response.data], { type: response.headers['content-type'] });
+   const file = response.data;
+
     const fileURL = URL.createObjectURL(file);
     window.open(fileURL, '_blank');
   },

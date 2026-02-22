@@ -21,16 +21,16 @@ export default function AvailableQuizzesPage() {
   }, []);
 
   if (loading) {
-    return <div className="p-6">Loading quizzes…</div>;
+    return <div className="p-6 text-gray-500 dark:text-gray-400">Loading quizzes…</div>;
   }
 
   if (quizzes.length === 0) {
-    return <div className="p-6 text-gray-500">No quizzes available</div>;
+    return <div className="p-6 text-gray-500 dark:text-gray-400">No quizzes available</div>;
   }
 
   return (
     <div className="p-6 space-y-6">
-      <h1 className="text-2xl font-semibold">Available Quizzes</h1>
+      <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">Available Quizzes</h1>
 
       <div className="space-y-4">
         {quizzes.map((quiz) => (

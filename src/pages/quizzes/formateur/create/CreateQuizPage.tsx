@@ -88,7 +88,7 @@ export default function CreateQuizPage() {
       console.error(err);
       setFormError(
         err.response?.data?.message ??
-          "Failed to create quiz. Please try again."
+        "Failed to create quiz. Please try again."
       );
     } finally {
       setSubmitting(false);
@@ -134,17 +134,17 @@ export default function CreateQuizPage() {
     <div className="p-6 max-w-6xl mx-auto space-y-10">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
           Create a New Quiz
         </h1>
-        <p className="text-gray-500 mt-1">
+        <p className="text-gray-500 dark:text-gray-400 mt-1">
           Configure quiz settings and define questions.
         </p>
       </div>
 
       {/* Error Banner */}
       {formError && (
-        <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 flex items-start gap-3">
+        <div className="rounded-xl border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20 px-4 py-3 text-sm text-red-700 dark:text-red-400 flex items-start gap-3">
           <svg
             className="w-5 h-5 mt-0.5 text-red-500"
             fill="none"
@@ -174,18 +174,18 @@ export default function CreateQuizPage() {
       )}
 
       {/* Quiz Info */}
-      <section className="bg-white p-6 rounded-2xl border shadow-sm space-y-6">
-        <h2 className="text-lg font-semibold text-gray-800">
+      <section className="bg-white dark:bg-gray-800 p-6 rounded-2xl border dark:border-gray-700 shadow-sm space-y-6">
+        <h2 className="text-lg font-semibold text-gray-800 dark:text-white">
           Quiz Information
         </h2>
 
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-600 mb-1">
+            <label className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
               Quiz Title
             </label>
             <input
-              className="w-full border rounded-lg px-3 py-2"
+              className="w-full border dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500"
               placeholder="e.g. Java Basics Assessment"
               value={form.title}
               onChange={(e) => {
@@ -197,11 +197,11 @@ export default function CreateQuizPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-600 mb-1">
+              <label className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
                 Module
               </label>
               <input
-                className="border rounded-lg px-3 py-2 w-full"
+                className="border dark:border-gray-600 rounded-lg px-3 py-2 w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500"
                 placeholder="Backend, Cloud, Frontend..."
                 value={form.module}
                 onChange={(e) => {
@@ -212,13 +212,13 @@ export default function CreateQuizPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-600 mb-1">
+              <label className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
                 Duration (minutes)
               </label>
               <input
                 type="number"
                 min={1}
-                className="border rounded-lg px-3 py-2 w-full"
+                className="border dark:border-gray-600 rounded-lg px-3 py-2 w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 value={form.durationMinutes}
                 onChange={(e) =>
                   setForm({
@@ -230,14 +230,14 @@ export default function CreateQuizPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-600 mb-1">
+              <label className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
                 Passing Score (%)
               </label>
               <input
                 type="number"
                 min={50}
                 max={100}
-                className="border rounded-lg px-3 py-2 w-full"
+                className="border dark:border-gray-600 rounded-lg px-3 py-2 w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 value={form.passingScore}
                 onChange={(e) =>
                   setForm({
@@ -246,7 +246,7 @@ export default function CreateQuizPage() {
                   })
                 }
               />
-              <p className="text-xs text-gray-400 mt-1">
+              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
                 Must be between 50% and 100%
               </p>
             </div>
@@ -257,13 +257,13 @@ export default function CreateQuizPage() {
       {/* Questions */}
       <section className="space-y-4">
         <div className="flex justify-between items-center">
-          <h2 className="text-lg font-semibold text-gray-800">
+          <h2 className="text-lg font-semibold text-gray-800 dark:text-white">
             Questions
           </h2>
         </div>
 
         {form.questions.length === 0 && (
-          <div className="text-sm text-gray-500 bg-gray-50 p-4 rounded-lg border">
+          <div className="text-sm text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border dark:border-gray-700">
             No questions added yet.
           </div>
         )}
