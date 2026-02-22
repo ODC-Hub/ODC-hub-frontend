@@ -90,16 +90,18 @@ export function AddResourceModal({ onClose, onSuccess, moduleId }: AddResourceMo
     };
 
     return (
-        <Modal isOpen={true} onClose={onClose} className="max-w-2xl w-full mx-4 ">
+        <Modal isOpen={true} onClose={onClose} className="max-w-2xl w-full mx-4 max-h-[90vh] overflow-hidden">
             <div>
                 <div className="px-8 py-6 flex items-start">
                     <div>
-                        <h3 className="text-xl font-bold text-gray-900 dark:text-white">Add New Resource</h3>
+                          <h3 className="text-xl font-bold text-gray-900 dark:text-white">Add New Resource</h3>
                         <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Share learning materials with your students</p>
+
+                      
                     </div>
                 </div>
 
-                <form onSubmit={handleSubmit} className="px-8 pb-8 space-y-6">
+                <form onSubmit={handleSubmit}  className="px-8 pb-8 space-y-6 overflow-y-auto max-h-[75vh]">
                     <div className="space-y-1.5">
                         <label className="block text-sm font-bold text-gray-900 dark:text-white">Title *</label>
                         <input
@@ -209,7 +211,8 @@ export function AddResourceModal({ onClose, onSuccess, moduleId }: AddResourceMo
                                                         }}
                                                         className="w-4 h-4 text-orange-600 focus:ring-orange-500 rounded"
                                                     />
-                                                    <div className="flex items-center gap-3 flex-1">
+                                                  <div className="flex items-center gap-3 flex-1 min-w-0">
+
                                                         {user.avatarFileId ? (
                                                             <img
                                                                 src={`http://localhost:8080/api/users/avatar/${user.avatarFileId}`}
@@ -221,11 +224,15 @@ export function AddResourceModal({ onClose, onSuccess, moduleId }: AddResourceMo
                                                                 {user.fullName ? user.fullName.charAt(0).toUpperCase() : user.email.charAt(0).toUpperCase()}
                                                             </div>
                                                         )}
-                                                        <div className="flex-1">
-                                                            <p className="text-sm font-medium text-gray-900 dark:text-white">
+                                                        <div className="flex-1 min-w-0">
+
+                                                           <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
+
                                                                 {user.fullName || 'Bootcamper'}
                                                             </p>
-                                                            <p className="text-xs text-gray-500 dark:text-gray-400">{user.email}</p>
+                                                           <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                                                               {user.email}
+                                                               </p>
                                                         </div>
                                                     </div>
                                                 </label>

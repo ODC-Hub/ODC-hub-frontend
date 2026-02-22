@@ -37,7 +37,7 @@ export function SubmitHomeworkModal({ resource, onClose, onSuccess }: SubmitHome
     };
 
     return (
-        <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50 backdrop-blur-sm">
+        <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-[99999] backdrop-blur-sm">
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg w-full max-w-lg">
                 <div className="px-6 py-4 relative">
                     <button onClick={onClose} className="absolute right-4 top-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
