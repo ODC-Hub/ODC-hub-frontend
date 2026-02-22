@@ -85,13 +85,51 @@ export default function NotificationDropdown() {
               <DropdownItem
                 onItemClick={() => {
                     if (!n.read) markAsRead(n.id);
-                    if (n.entityType === "PLANNING_ITEM" && n.entityId) {
-                        navigate(`/calendar`);
-                      }
-                    if (n.entityType === "RESOURCE" && n.entityId) {
-                      navigate(`/resources?resourceId=${n.entityId}`);
-                    }
 
+                    switch (n.type) {
+
+                      case "PLANNING_ITEM_CREATED":
+                        navigate("/calendar");
+                        break;
+
+                      case "PLANNING_ITEM_UPDATED":
+                        navigate("/calendar");
+                        break;
+
+                      case "PLANNING_ITEM_DELETED":
+                        navigate("/calendar");
+                        break;
+
+                      case "RESOURCE_CREATED":
+                        // Bootcamper → resource list (highlighted)
+                        navigate(`/resources?resourceId=${n.entityId}`);
+                        break;
+
+                      case "HOMEWORK_ASSIGNED":
+                        // Bootcamper → homework details
+                        navigate(`/resources?resourceId=${n.entityId}`);
+                        break;
+
+                      case "HOMEWORK_SUBMITTED":
+                        // ADMIN / FORMATEUR → review submissions
+                        navigate(`/homework/${n.entityId}/reviews`);
+                        break;
+
+                      case "HOMEWORK_REVIEWED":
+                        // Bootcamper → review details
+                        navigate(`/my-submissions`);
+                        break;
+
+                      case "PROJECT_ASSIGNED":
+                        navigate(`/projects?projectId=${n.entityId}`);
+                        break;
+                      case "USER_REGISTRATION_REQUESTED":
+                        navigate("/admin/users/pending");
+                        break;
+                      default:
+                        navigate("/notifications");
+                    }
+                    
                   closeDropdown();                
                 }}
                 className={`flex gap-3 rounded-lg border-b border-gray-100 p-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-white/5 ${

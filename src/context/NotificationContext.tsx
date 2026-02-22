@@ -12,7 +12,21 @@ import api from "@/api/axios";
 import toast from "react-hot-toast";
 import { useAuth } from "./AuthContext";
 
+export type NotificationType =
+  | "PLANNING_ITEM_CREATED"
+  | "PLANNING_ITEM_UPDATED"
+  | "PLANNING_ITEM_DELETED"
+  | "RESOURCE_CREATED"
+  | "HOMEWORK_ASSIGNED"
+  | "HOMEWORK_SUBMITTED"
+  | "HOMEWORK_REVIEWED"
+  | "PROJECT_ASSIGNED"
+  | "QUIZ_SUBMITTED"
+  | "QUIZ_GRADED"
+  | "USER_ROLE_UPDATED"
+  | "USER_REGISTRATION_REQUESTED";
 export interface Notification {
+  type: NotificationType;   // ✅ REQUIRED
   id: string;
   title: string;
   message: string;

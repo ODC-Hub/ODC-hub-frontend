@@ -147,7 +147,7 @@ export function ProjectDetailPage() {
                     <h2 className="font-bold text-lg text-gray-900 dark:text-white mb-1 truncate">{project.name}</h2>
                     <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2">{project.description}</p>
 
-                    {/* Team Members Preview */}
+                    {/* Team Members Preview 
                     <div className="flex items-center gap-2 mt-3">
                         <div className="flex -space-x-2">
                             {project.members.slice(0, 4).map((memberId, idx) => (
@@ -166,7 +166,7 @@ export function ProjectDetailPage() {
                         <button className="ml-auto p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded">
                             <UserPlus className="w-4 h-4 text-gray-400" />
                         </button>
-                    </div>
+                    </div>*/}
                 </div>
 
                 {/* Navigation Tabs */}

@@ -12,7 +12,7 @@ import {
 import { useSidebar } from "../context/SidebarContext";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { FileText, BookOpen, CheckCircle } from "lucide-react";
+import { FileText, BookOpen, CheckCircle, LayoutDashboard, CalendarDays, LibraryBig, FolderKanban, ClipboardCheck, FileCheck2, UploadCloud, ListChecks, UserCog, Bot} from "lucide-react";
 import { BookIcon } from "lucide-react";
 
 type NavItem = {
@@ -36,32 +36,27 @@ const AppSidebar: React.FC = () => {
 
   const navItems: NavItem[] = [
     {
-      icon: <GridIcon />,
-      name: "Dashboard",
+      icon: <LayoutDashboard />,
+      name: "Overview",
       subItems: [{ name: "Ecommerce", path: "/", pro: false }],
     },
     {
-      icon: <CalenderIcon />,
-      name: "Calendar",
-      path: "/calendar",
-    },
-    {
-      icon: <FileText />,
-      name: "Materials",
+      icon: <LibraryBig />,
+      name: "Learning Resources",
       path: "/resources",
     },
 
     ...(isFormateur ? [
       {
-        icon: <BookOpen />,
-        name: "Homework Reviews",
+        icon: <ClipboardCheck />,
+        name: "Submissions Review",
         path: "/homework-reviews",
       }
     ] : []),
 
     ...(isBootcamper ? [
       {
-        icon: <CheckCircle className="w-6 h-6" />,
+        icon: <UploadCloud />,
         name: "My Submissions",
         path: "/my-submissions",
       }
@@ -70,11 +65,11 @@ const AppSidebar: React.FC = () => {
     ...(isAdmin
       ? [
         {
-          icon: <UserCircleIcon />,
-          name: "Users",
+          icon: <UserCog />,
+          name: "User Management",
           subItems: [
             {
-              name: "Pending Users",
+              name: "Access Requests",
               path: "/admin/users/pending",
             },
             {
@@ -99,7 +94,7 @@ const AppSidebar: React.FC = () => {
 
   {
     name: "Projects",
-    icon: <PageIcon />,
+    icon: <FolderKanban />,
     path: "/projects",
   },
   
@@ -135,7 +130,12 @@ const AppSidebar: React.FC = () => {
       ],
     },*/
     {
-      icon: <BookIcon />, // or any icon
+      icon: <CalendarDays />,
+      name: "Schedule",
+      path: "/calendar",
+    },
+    {
+      icon: <Bot />, // or any icon
       name: "Learning Assistant",
       path: "/learning",
     },
@@ -143,19 +143,19 @@ const AppSidebar: React.FC = () => {
     ...(isFormateur
   ? [
       {
-        icon: <BookIcon />,
-        name: "Quizzes",
+        icon: <FileCheck2 />,
+        name: "Assessments",
         subItems: [
           {
-            name: "My Quizzes",
+            name: "My Assessments",
             path: "/quizzes/formateur",
           },
           {
-            name: "Create Quiz",
+            name: "Create Assessment",
             path: "/quizzes/create",
           },
           {
-            name: "Quiz Results",
+            name: "Results & Analytics",
             path: "/quizzes/formateur/results",
           }
 
@@ -167,11 +167,11 @@ const AppSidebar: React.FC = () => {
 ...(isBootcamper
   ? [
       {
-        icon: <BookIcon />,
-        name: "Quizzes",
+        icon: <ListChecks />,
+        name: "Assessments",
         subItems: [
           {
-            name: "Available Quizzes",
+            name: "Available Assessments",
             path: "/quizzes",
           },
           {
