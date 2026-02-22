@@ -1,4 +1,4 @@
-name: Frontend CI - Build
+name: Frontend CI - Robust Build
 
 on:
   push:
@@ -8,21 +8,86 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
+      - name: Print environment (debug)
+        run: |
+          node --version || true
+          npm --version || true
+          which pnpm || true
+
+      - name: Setup Node.js 18 (stable)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.19.1
+
+      - name: Detect package manager lockfile
+        id: detect
+        run: |
+          if [ -f pnpm-lock.yaml ]; then
+            echo "pnpm=true" >> $GITHUB_OUTPUT
+          else
+            echo "pnpm=false" >> $GITHUB_OUTPUT
+          fi
+
+      # ---------------------
+      # If pnpm is available (preferred)
+      # ---------------------
+      - name: Setup pnpm (when pnpm-lock.yaml exists)
+        if: steps.detect.outputs.pnpm == 'true'
+        uses: pnpm/action-setup@v4
         with:
           version: 9
 
-      - uses: actions/setup-node@v4
+      - name: Install deps with pnpm
+        if: steps.detect.outputs.pnpm == 'true'
+        run: |
+          # use the pnpm lockfile which should be present if this step runs
+          pnpm install --frozen-lockfile
+
+      - name: Build (pnpm)
+        if: steps.detect.outputs.pnpm == 'true'
+        run: |
+          pnpm run build
+
+      # ---------------------
+      # Fallback: use npm (no pnpm lockfile)
+      # ---------------------
+      - name: Install deps with npm (fallback)
+        if: steps.detect.outputs.pnpm == 'false'
+        run: |
+          # Use npm install (avoids npm ci optional-deps bug in many CI environments)
+          npm install --no-fund --no-audit
+          # Ensure native binaries are rebuilt (fixes missing native bindings)
+          npm rebuild || true
+
+      - name: Ensure native rollup/esbuild binaries (npm fallback)
+        if: steps.detect.outputs.pnpm == 'false'
+        run: |
+          # Attempt to make sure platform-specific optional native packages are present
+          # (best-effort; harmless if not present)
+          npm install @rollup/rollup-linux-x64-gnu --no-save || true
+          npm rebuild || true
+
+      - name: Build (npm fallback)
+        if: steps.detect.outputs.pnpm == 'false'
+        run: |
+          # Use package script if exists, otherwise direct vite build
+          if npm run | grep -q " build"; then
+            npm run build
+          else
+            npx vite build
+          fi
+
+      - name: Upload build artifact (optional)
+        if: success()
+        uses: actions/upload-artifact@v4
         with:
-          node-version: 18
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile=false
-
-      - name: Build frontend
-        run: pnpm vite build
+          name: frontend-build
+          path: |
+            dist
+            build
