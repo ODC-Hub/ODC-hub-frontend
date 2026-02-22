@@ -17,10 +17,11 @@ interface ResourceCardProps {
     resource: ResourceResponse;
     onSubmitHomework?: (resource: ResourceResponse) => void;
     isFormateur?: boolean;
+    highlighted?: boolean;
     onValidate?: (id: string) => void;
 }
 
-export function ResourceCard({ resource, onSubmitHomework, isFormateur, onValidate }: ResourceCardProps) {
+export function ResourceCard({ resource, onSubmitHomework, isFormateur, highlighted, onValidate }: ResourceCardProps) {
     const [loading, setLoading] = useState(false);
 
     const getTypeIcon = (type: string) => {
@@ -79,7 +80,14 @@ export function ResourceCard({ resource, onSubmitHomework, isFormateur, onValida
     };
 
     return (
-        <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition relative">
+        <div
+  id={`resource-${resource.id}`}
+  className={`relative rounded-xl border bg-white p-4 transition-all ${
+    highlighted
+      ? "border-orange-400 ring-2 ring-orange-300 bg-orange-50"
+      : "border-gray-200"
+  }`}
+>
             {/* Top Right Type Badge */}
             <div className="absolute top-6 right-6">
                 {getTypeBadge(resource.type)}

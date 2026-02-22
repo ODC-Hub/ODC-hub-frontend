@@ -1,5 +1,5 @@
 export const MODULES = [
-    { id: 'concepts-fondamentaux', name: ' Module 1:Concepts fondamentaux – bases du développement web' },
+    { id: 'concepts-fondamentaux', name: ' Module 1: Concepts fondamentaux – bases du développement web' },
     { id: 'dev-frontend-js-ts', name: ' Module 2: Développement Frontend – JavaScript & TypeScript' },
     { id: 'dev-frontend-frameworks', name: ' Module 3: Développement Front-End – Frameworks modernes (React)' },
     { id: 'conception-ux-ui', name: ' Module 4: Conception UX/UI' },

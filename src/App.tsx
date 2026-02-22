@@ -48,6 +48,7 @@ import MyQuizResults from "./pages/quizzes/bootcamper/MyQuizResults";
 import FormateurQuizResultsPage from "./pages/quizzes/formateur/FormateurQuizResultsPage";
 import EditQuizPage from "./pages/quizzes/formateur/EditQuizPage";
 import QuizPreviewPage from "./pages/quizzes/formateur/QuizPreviewPage";
+import NotificationsPage from "./pages/NotificationsPage";
 
 export default function App() {
   return (
@@ -125,7 +126,7 @@ export default function App() {
               <Route path="/quizzes/:quizId/take" element={<TakeQuizPage />} />
             </Route>
 
-
+            <Route path="/notifications" element={<NotificationsPage />} />
 
             <Route path="/account-settings" element={<AccountSettings />} />
           </Route>

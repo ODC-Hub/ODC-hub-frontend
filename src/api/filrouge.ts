@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import api from './axios';
 import { Project, ProjectKpi } from '../types/project';
 import { Sprint, WorkItem, CreateWorkItemRequest } from '../types/sprint';

@@ -18,7 +18,7 @@ export interface ResourceResponse {
   hasFile: boolean;
   link?: string;
   validated: boolean;
-  createdAt: string; // ISO Date string
+  createdAt: string; 
   gridFsFileId?: string;
   filename?: string;
   assignedTo?: string[];
@@ -41,8 +41,8 @@ export interface LivrableResponse {
   filename?: string;
   status: LivrableStatus;
   comment?: string;
-  submittedAt: string; // ISO Date string
-  reviewedAt?: string; // ISO Date string
+  submittedAt: string; 
+  reviewedAt?: string; 
   reviewedBy?: string;
   reviewerComment?: string;
   studentComment?: string;

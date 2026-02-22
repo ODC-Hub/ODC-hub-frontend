@@ -9,21 +9,26 @@ import { useAuth } from '../../../context/AuthContext';
 import { toast } from 'react-toastify';
 import { Eye, Trash2 } from 'lucide-react';
 import { MODULES } from './constants';
+import ConfirmationDialog from '@/components/common/ConfirmationDialog';
+import { useSearchParams } from "react-router-dom";
 
 export default function ResourcesPage() {
     const { user } = useAuth();
-    // Ensure case-insensitive check and handle potential undefined
+
     const isFormateur = user?.role === 'FORMATEUR' || user?.role === 'ADMIN' || (user as any)?.roles?.includes('FORMATEUR');
 
-    // Initialize with "all" to show everything by default, or keep specific module if preferred
     const [selectedModuleId, setSelectedModuleId] = useState<string>('all');
     const [resources, setResources] = useState<ResourceResponse[]>([]);
     const [loading, setLoading] = useState(false);
     const [showAddModal, setShowAddModal] = useState(false);
     const [selectedResourceForHomework, setSelectedResourceForHomework] = useState<ResourceResponse | null>(null);
 
-    // Fetch resources for selected module
-    // Exposed as function to be called on updates
+    const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
+    const [deleteLoading, setDeleteLoading] = useState(false);
+
+    const [searchParams] = useSearchParams();
+    const highlightedResourceId = searchParams.get("resourceId");
+
     const fetchResources = async (moduleId = selectedModuleId) => {
         setLoading(true);
         try {
@@ -51,6 +56,22 @@ export default function ResourcesPage() {
         fetchResources();
     }, [selectedModuleId, isFormateur]);
 
+    useEffect(() => {
+        if (!highlightedResourceId || resources.length === 0) return;
+
+        // wait for DOM paint
+        const timeout = setTimeout(() => {
+            const el = document.getElementById(`resource-${highlightedResourceId}`);
+            if (el) {
+            el.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+            });
+            }
+        }, 100); // small delay to ensure DOM is ready
+
+        return () => clearTimeout(timeout);
+    }, [highlightedResourceId, resources]);
 
     const handleResourceCreated = (newResourceModuleId?: string) => {
         toast.success('Resource created successfully');
@@ -78,18 +99,25 @@ export default function ResourcesPage() {
         }
     };
 
-    const handleDelete = async (id: string) => {
-        if (!confirm("Are you sure you want to delete this resource?")) return;
-        try {
-            await resourceApi.deleteResource(id);
-            toast.success("Resource deleted successfully");
-            fetchResources();
-        } catch (error) {
-            console.error("Failed to delete resource", error);
-            toast.error("Failed to delete resource");
-        }
+    const handleDeleteRequest = (id: string) => {
+        setDeleteTargetId(id);
     };
+const confirmDelete = async () => {
+  if (!deleteTargetId) return;
 
+  try {
+    setDeleteLoading(true);
+    await resourceApi.deleteResource(deleteTargetId);
+    toast.success("Resource deleted successfully");
+    fetchResources();
+  } catch (error) {
+    console.error("Failed to delete resource", error);
+    toast.error("Failed to delete resource");
+  } finally {
+    setDeleteLoading(false);
+    setDeleteTargetId(null);
+  }
+};
     const getTypeBadge = (type: string) => {
         const baseClasses = "px-2.5 py-1 text-xs font-bold uppercase tracking-wider rounded-sm";
         switch (type) {
@@ -194,7 +222,12 @@ export default function ResourcesPage() {
                                 </tr>
                             ) : (
                                 resources.map((resource) => (
-                                    <tr key={resource.id} className="hover:bg-gray-50 transition-colors">
+                                    <tr id={`resource-${resource.id}`}
+                                        key={resource.id} className={`hover:bg-gray-50 transition-colors ${
+                                        resource.id === highlightedResourceId
+                                        ? "bg-orange-50 ring-2 ring-orange-300"
+                                        : ""
+                                    }`}>
                                         <td className="px-6 py-4">
                                             <div className="font-medium text-gray-900">{resource.title}</div>
                                             <div className="text-xs text-gray-500 mt-0.5 max-w-md truncate">{resource.description}</div>
@@ -232,7 +265,7 @@ export default function ResourcesPage() {
                                                     </button>
                                                 )}
                                                 <button
-                                                    onClick={() => handleDelete(resource.id)}
+                                                    onClick={() => handleDeleteRequest(resource.id)}                                                    
                                                     className="text-red-600 hover:text-red-500   transition-colors"
                                                     title="Delete"
                                                 >
@@ -270,6 +303,7 @@ export default function ResourcesPage() {
                                                     key={resource.id}
                                                     resource={resource}
                                                     isFormateur={isFormateur}
+                                                    highlighted={resource.id === highlightedResourceId}
                                                     onSubmitHomework={(r) => setSelectedResourceForHomework(r)}
                                                     onValidate={handleValidate}
                                                 />
@@ -309,6 +343,7 @@ export default function ResourcesPage() {
                                             key={resource.id}
                                             resource={resource}
                                             isFormateur={isFormateur}
+                                            highlighted={resource.id === highlightedResourceId}
                                             onSubmitHomework={(r) => setSelectedResourceForHomework(r)}
                                             onValidate={handleValidate}
                                         />
@@ -336,6 +371,18 @@ export default function ResourcesPage() {
                     onSuccess={handleHomeworkSubmitted}
                 />
             )}
+
+            <ConfirmationDialog
+                open={!!deleteTargetId}
+                title="Delete resource"
+                message="This action is irreversible. The resource will be permanently deleted."
+                confirmText="Delete"
+                cancelText="Cancel"
+                danger
+                confirmDisabled={deleteLoading}
+                onCancel={() => setDeleteTargetId(null)}
+                onConfirm={confirmDelete}
+                />
         </div>
     );
 }

@@ -10,6 +10,7 @@ import PageMeta from "../components/common/PageMeta";
 import { useAuth } from "../context/AuthContext";
 import { getPlanning, createPlanning, updatePlanning, deletePlanning } from "../api/planningApi";
 import { getAllUsers, UserResponse } from "../api/adminApi";
+import ConfirmationDialog from "@/components/common/ConfirmationDialog";
 
 interface PlanningItem {
   id: string;
@@ -36,6 +37,9 @@ const Calendar: React.FC = () => {
   const { user } = useAuth();
   const canEdit = user?.role === "ADMIN" || user?.role === "FORMATEUR";
 
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+
 
   const [events, setEvents] = useState<CalendarEvent[]>([]);
 
@@ -54,17 +58,20 @@ const Calendar: React.FC = () => {
   const calendarRef = useRef<FullCalendar>(null);
   const { isOpen, openModal, closeModal } = useModal();
 
-  const getTypeColor = (type: string) => {
-    switch (type) {
-      case "SESSION": return "#3C50E0";
-      case "DEADLINE": return "#ff0000";
-      case "EVENT": return "#ff4500"; 
-      case "ASSESSMENT": return "#27a844"; 
-      default: return "#3C50E0";
-    }
-  };
-
-
+const getTypeColor = (type: string) => {
+  switch (type) {
+    case "SESSION":
+      return "#4F46E5"; // Indigo
+    case "DEADLINE":
+      return "#E11D48"; // Rose
+    case "EVENT":
+      return "#F59E0B"; // Amber
+    case "ASSESSMENT":
+      return "#10B981"; // Emerald
+    default:
+      return "#4F46E5";
+  }
+};
   
   useEffect(() => {
     loadEvents();
@@ -125,11 +132,6 @@ const Calendar: React.FC = () => {
 
   const handleEventClick = (clickInfo: EventClickArg) => {
     const event = clickInfo.event;
-
-   
-    if (!canEdit) {
-    
-    }
 
     setSelectedEventId(event.id);
     setEventTitle(event.title);
@@ -226,19 +228,31 @@ const Calendar: React.FC = () => {
     }
   };
 
-  const handleDeleteEvent = async () => {
-    if (!selectedEventId || !canEdit) return;
-    if (confirm("Are you sure you want to delete this item?")) {
-      try {
-        await deletePlanning(selectedEventId);
-        closeModal();
-        resetModalFields();
-        loadEvents();
-      } catch (err) {
-        console.error("Failed to delete", err);
-      }
-    }
+  const handleDeleteClick = () => {
+  if (!selectedEventId || !canEdit) return;
+
+  closeModal();
+
+  setShowDeleteConfirm(true);
+};
+
+const confirmDeleteEvent = async () => {
+  if (!selectedEventId) return;
+
+  try {
+    setDeleteLoading(true);
+    await deletePlanning(selectedEventId);
+
+    setShowDeleteConfirm(false);
+    closeModal();
+    resetModalFields();
+    loadEvents();
+  } catch (err) {
+    console.error("Failed to delete", err);
+  } finally {
+    setDeleteLoading(false);
   }
+};
 
   const resetModalFields = () => {
     setSelectedEventId(null);
@@ -311,7 +325,7 @@ const Calendar: React.FC = () => {
 
         <Modal
           isOpen={isOpen}
-          onClose={closeModal}
+          onClose={closeModal}         
           className="max-w-[700px] p-6 lg:p-10"
         >
           <div className="flex flex-col px-2 overflow-y-auto custom-scrollbar max-h-[85vh]">
@@ -445,12 +459,12 @@ const Calendar: React.FC = () => {
             <div className="flex items-center gap-3 mt-8 modal-footer sm:justify-end">
               {canEdit && selectedEventId && (
                 <button
-                  onClick={handleDeleteEvent}
-                  type="button"
-                  className="mr-auto w-full justify-center rounded-lg border border-red-500 bg-red-50 text-red-600 px-4 py-2.5 text-sm font-medium hover:bg-red-100 sm:w-auto"
-                >
-                  Delete
-                </button>
+  onClick={handleDeleteClick}
+  type="button"
+  className="mr-auto w-full justify-center rounded-lg border border-red-500 bg-red-50 text-red-600 px-4 py-2.5 text-sm font-medium hover:bg-red-100 sm:w-auto"
+>
+  Delete
+</button>
               )}
 
               <button
@@ -473,16 +487,48 @@ const Calendar: React.FC = () => {
           </div>
         </Modal>
       </div>
+      <ConfirmationDialog
+  open={showDeleteConfirm}
+  title="Delete planning item"
+  message="This action is irreversible. The planning item will be permanently deleted."
+  confirmText="Delete"
+  cancelText="Cancel"
+  danger
+  confirmDisabled={deleteLoading}
+  onCancel={() => setShowDeleteConfirm(false)}
+  onConfirm={confirmDeleteEvent}
+/>
     </>
   );
 };
 
 const renderEventContent = (eventInfo: any) => {
+  const { title, extendedProps } = eventInfo.event;
+  const { type, tags = [] } = extendedProps;
 
   return (
-    <div className="flex flex-col p-1 w-full h-full overflow-hidden text-white">
-      <div className="text-xs font-semibold truncate">{eventInfo.event.title}</div>
-      {eventInfo.timeText && <div className="text-[10px] opacity-90">{eventInfo.timeText}</div>}
+    <div className="fc-event-card">
+      {/* Header */}
+      <div className="fc-event-header">
+        <span className="fc-event-type">{type}</span>
+        {eventInfo.timeText && (
+          <span className="fc-event-time">{eventInfo.timeText}</span>
+        )}
+      </div>
+
+      {/* Title */}
+      <div className="fc-event-title">{title}</div>
+
+      {/* Tags */}
+      {tags.length > 0 && (
+        <div className="fc-event-tags">
+          {tags.slice(0, 3).map((tag: string) => (
+            <span key={tag} className="fc-event-tag">
+              #{tag}
+            </span>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

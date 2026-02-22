@@ -1,6 +1,4 @@
 import { Sprint } from '@/types/sprint';
-import Button from '@/components/ui/button/Button';
-import { CheckSquare, BarChart2 } from 'lucide-react';
 
 interface SprintControlsProps {
     sprint: Sprint;
@@ -16,8 +14,7 @@ export function SprintControls({
     progress,
     completedEffort,
     totalEffort,
-    onCloseSprint,
-    onExportRetrospective
+
 }: SprintControlsProps) {
 
     return (

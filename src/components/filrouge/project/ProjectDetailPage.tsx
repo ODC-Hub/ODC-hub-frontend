@@ -16,7 +16,6 @@ import {
     BarChart3,
     MessageSquare,
     ChevronLeft,
-    Settings,
     UserPlus,
     Users
 } from 'lucide-react';

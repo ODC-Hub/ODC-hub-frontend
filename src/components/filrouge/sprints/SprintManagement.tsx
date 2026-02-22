@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react';
 import { Project } from '../../../types/project';
 import { Sprint } from '../../../types/sprint';

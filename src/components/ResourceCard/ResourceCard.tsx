@@ -1,13 +1,14 @@
 import React from 'react';
 import { ResourceResponse } from '../../types/resource';
-import { openProtectedFileInNewTab } from '../../api/resources';
+import { resourceApi } from '../../api/resources';
 
 type Props = {
   resource: ResourceResponse,
+    isFormateur: boolean;
   onSubmitClick: (resource: ResourceResponse) => void
 };
 
-export default function ResourceCard({resource, onSubmitClick}: Props){
+export default function ResourceCard({resource, isFormateur, onSubmitClick}: Props){
   return (
     <div className="card">
       <div className="card-head">
@@ -22,10 +23,14 @@ export default function ResourceCard({resource, onSubmitClick}: Props){
         )}
 
         {resource.hasFile && (
-          <button onClick={() => openProtectedFileInNewTab(/* you need fileId here */)}>Open File</button>
+          <button
+            onClick={() => resource.gridFsFileId && resourceApi.viewFile(resource.gridFsFileId)}
+          >
+            Open File
+          </button>        
         )}
 
-        {resource.type === 'HOMEWORK' && (
+        {resource.type === 'HOMEWORK' && !isFormateur && (
           <button onClick={() => onSubmitClick(resource)}>Submit Homework</button>
         )}
       </div>
