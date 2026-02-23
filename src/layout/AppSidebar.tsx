@@ -36,9 +36,9 @@ const AppSidebar: React.FC = () => {
 
   const navItems: NavItem[] = [
     {
-      icon: <LayoutDashboard />,
-      name: "Overview",
-      subItems: [{ name: "Ecommerce", path: "/", pro: false }],
+      icon: <GridIcon />,
+      name: "Dashboard",
+       path: "/", 
     },
     {
       icon: <LibraryBig />,
