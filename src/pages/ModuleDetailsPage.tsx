@@ -79,122 +79,121 @@ export default function ModuleDetailsPage() {
      🖥 Render
   ================================= */
 
-return (
-  <div className="p-10 space-y-10 max-w-7xl mx-auto
-    bg-gray-50 dark:bg-[#0f172a]
+  return (
+    <div className="p-10 space-y-10 max-w-7xl mx-auto
+    bg-gray-50 dark:bg-gray-900
     min-h-screen transition-colors duration-300">
 
-    {/* Back */}
-    <Link
-      to="/learning"
-      className="text-sm text-blue-500 hover:underline"
-    >
-      ← Back to modules
-    </Link>
+      {/* Back */}
+      <Link
+        to="/learning"
+        className="text-sm text-blue-500 hover:underline"
+      >
+        ← Back to modules
+      </Link>
 
-    {/* Header */}
-    <div>
-      <h1 className="text-3xl font-bold capitalize text-gray-900 dark:text-white">
-        {moduleId} Resources
-      </h1>
-      <p className="text-gray-500 dark:text-gray-400 mt-2">
-        Personalized recommendations powered by AI.
-      </p>
-    </div>
+      {/* Header */}
+      <div>
+        <h1 className="text-3xl font-bold capitalize text-gray-900 dark:text-white">
+          {moduleId} Resources
+        </h1>
+        <p className="text-gray-500 dark:text-gray-400 mt-2">
+          Personalized recommendations powered by AI.
+        </p>
+      </div>
 
-    {/* Filters */}
-    <div className="flex flex-col md:flex-row gap-4">
-      <input
-        type="text"
-        placeholder="Search resources..."
-        className="flex-1 px-4 py-3 rounded-2xl
-        bg-white dark:bg-[#1e293b]
+      {/* Filters */}
+      <div className="flex flex-col md:flex-row gap-4">
+        <input
+          type="text"
+          placeholder="Search resources..."
+          className="flex-1 px-4 py-3 rounded-2xl
+        bg-white dark:bg-gray-800
         border border-gray-200 dark:border-gray-700
         text-gray-900 dark:text-white
         focus:ring-2 focus:ring-blue-500 outline-none transition"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
 
-      <select
-        value={typeFilter}
-        onChange={(e) => setTypeFilter(e.target.value)}
-        className="px-4 py-3 rounded-2xl
-        bg-white dark:bg-[#1e293b]
+        <select
+          value={typeFilter}
+          onChange={(e) => setTypeFilter(e.target.value)}
+          className="px-4 py-3 rounded-2xl
+        bg-white dark:bg-gray-800
         border border-gray-200 dark:border-gray-700
         text-gray-900 dark:text-white
         focus:ring-2 focus:ring-blue-500 outline-none"
-      >
-        {types.map((type) => (
-          <option key={type} value={type}>
-            {type}
-          </option>
-        ))}
-      </select>
-    </div>
-
-    {loading && (
-      <div className="text-gray-500 dark:text-gray-400">
-        Loading resources...
+        >
+          {types.map((type) => (
+            <option key={type} value={type}>
+              {type}
+            </option>
+          ))}
+        </select>
       </div>
-    )}
 
-    {!loading && filteredResources.length === 0 && (
-      <div className="bg-gray-100 dark:bg-[#1e293b] 
+      {loading && (
+        <div className="text-gray-500 dark:text-gray-400">
+          Loading resources...
+        </div>
+      )}
+
+      {!loading && filteredResources.length === 0 && (
+        <div className="bg-gray-100 dark:bg-gray-800 
         rounded-2xl p-8 text-center text-gray-500 dark:text-gray-400">
-        No matching resources found.
-      </div>
-    )}
+          No matching resources found.
+        </div>
+      )}
 
-    {/* Sections */}
-    <div className="space-y-12">
-      {Object.entries(groupedResources).map(([topic, topicResources]) => (
-        <div key={topic} className="space-y-6">
-          <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
-            {topic}
-          </h2>
+      {/* Sections */}
+      <div className="space-y-12">
+        {Object.entries(groupedResources).map(([topic, topicResources]) => (
+          <div key={topic} className="space-y-6">
+            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
+              {topic}
+            </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {topicResources.map((resource) => (
-              <a
-                key={resource.id}
-                href={resource.url}
-                target="_blank"
-                rel="noreferrer"
-                className="group rounded-2xl p-6
-                bg-white dark:bg-[#1e293b]
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {topicResources.map((resource) => (
+                <a
+                  key={resource.id}
+                  href={resource.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group rounded-2xl p-6
+                bg-white dark:bg-gray-800
                 border border-gray-100 dark:border-gray-700
                 shadow-sm hover:shadow-xl
                 hover:-translate-y-1 transition-all duration-300"
-              >
-                <span
-                  className={`text-xs px-3 py-1 rounded-full font-medium capitalize ${
-                    resourceTypeColors[resource.type] ||
-                    "bg-gray-100 text-gray-600"
-                  }`}
                 >
-                  {resource.type}
-                </span>
+                  <span
+                    className={`text-xs px-3 py-1 rounded-full font-medium capitalize ${resourceTypeColors[resource.type] ||
+                      "bg-gray-100 text-gray-600"
+                      }`}
+                  >
+                    {resource.type}
+                  </span>
 
-                <h3 className="mt-4 font-semibold 
+                  <h3 className="mt-4 font-semibold 
                   text-gray-800 dark:text-white 
                   group-hover:text-blue-500 transition">
-                  {resource.title}
-                </h3>
+                    {resource.title}
+                  </h3>
 
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-2 line-clamp-3">
-                  {resource.description}
-                </p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-2 line-clamp-3">
+                    {resource.description}
+                  </p>
 
-                <span className="text-sm text-blue-500 mt-4 inline-block">
-                  Open resource →
-                </span>
-              </a>
-            ))}
+                  <span className="text-sm text-blue-500 mt-4 inline-block">
+                    Open resource →
+                  </span>
+                </a>
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
-  </div>
-);
+  );
 }

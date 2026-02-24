@@ -63,10 +63,10 @@ export default function ResourcesPage() {
         const timeout = setTimeout(() => {
             const el = document.getElementById(`resource-${highlightedResourceId}`);
             if (el) {
-            el.scrollIntoView({
-                behavior: "smooth",
-                block: "center",
-            });
+                el.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center",
+                });
             }
         }, 100); // small delay to ensure DOM is ready
 
@@ -102,22 +102,22 @@ export default function ResourcesPage() {
     const handleDeleteRequest = (id: string) => {
         setDeleteTargetId(id);
     };
-const confirmDelete = async () => {
-  if (!deleteTargetId) return;
+    const confirmDelete = async () => {
+        if (!deleteTargetId) return;
 
-  try {
-    setDeleteLoading(true);
-    await resourceApi.deleteResource(deleteTargetId);
-    toast.success("Resource deleted successfully");
-    fetchResources();
-  } catch (error) {
-    console.error("Failed to delete resource", error);
-    toast.error("Failed to delete resource");
-  } finally {
-    setDeleteLoading(false);
-    setDeleteTargetId(null);
-  }
-};
+        try {
+            setDeleteLoading(true);
+            await resourceApi.deleteResource(deleteTargetId);
+            toast.success("Resource deleted successfully");
+            fetchResources();
+        } catch (error) {
+            console.error("Failed to delete resource", error);
+            toast.error("Failed to delete resource");
+        } finally {
+            setDeleteLoading(false);
+            setDeleteTargetId(null);
+        }
+    };
     const getTypeBadge = (type: string) => {
         const baseClasses = "px-2.5 py-1 text-xs font-bold uppercase tracking-wider rounded-sm";
         switch (type) {
@@ -223,11 +223,10 @@ const confirmDelete = async () => {
                             ) : (
                                 resources.map((resource) => (
                                     <tr id={`resource-${resource.id}`}
-                                        key={resource.id} className={`hover:bg-gray-50 transition-colors ${
-                                        resource.id === highlightedResourceId
-                                        ? "bg-orange-50 ring-2 ring-orange-300"
-                                        : ""
-                                    }`}>
+                                        key={resource.id} className={`hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors ${resource.id === highlightedResourceId
+                                                ? "bg-orange-50 ring-2 ring-orange-300 dark:bg-orange-900/20"
+                                                : ""
+                                            }`}>
                                         <td className="px-6 py-4">
                                             <div className="font-medium text-gray-900 dark:text-white">{resource.title}</div>
                                             <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 max-w-md truncate">{resource.description}</div>
@@ -265,7 +264,7 @@ const confirmDelete = async () => {
                                                     </button>
                                                 )}
                                                 <button
-                                                    onClick={() => handleDeleteRequest(resource.id)}                                                    
+                                                    onClick={() => handleDeleteRequest(resource.id)}
                                                     className="text-red-600 hover:text-red-500   transition-colors"
                                                     title="Delete"
                                                 >
@@ -381,7 +380,7 @@ const confirmDelete = async () => {
                 confirmDisabled={deleteLoading}
                 onCancel={() => setDeleteTargetId(null)}
                 onConfirm={confirmDelete}
-                />
+            />
         </div>
     );
 }

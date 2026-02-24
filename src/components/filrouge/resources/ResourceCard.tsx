@@ -81,13 +81,12 @@ export function ResourceCard({ resource, onSubmitHomework, isFormateur, highligh
 
     return (
         <div
-  id={`resource-${resource.id}`}
-  className={`relative rounded-xl border bg-white p-4 transition-all ${
-    highlighted
-      ? "border-orange-400 ring-2 ring-orange-300 bg-orange-50"
-      : "border-gray-200"
-  }`}
->
+            id={`resource-${resource.id}`}
+            className={`relative rounded-xl border bg-white dark:bg-gray-800 p-4 transition-all ${highlighted
+                    ? "border-orange-400 ring-2 ring-orange-300 bg-orange-50 dark:bg-orange-900/20"
+                    : "border-gray-200 dark:border-gray-700"
+                }`}
+        >
             {/* Top Right Type Badge */}
             <div className="absolute top-6 right-6">
                 {getTypeBadge(resource.type)}
