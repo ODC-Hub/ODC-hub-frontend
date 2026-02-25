@@ -124,7 +124,7 @@ npm install
 npm run dev
 ```
 
-The app will be available at: <http://localhost:5173>
+The app will be available at: <http://35.181.154.39:5173>
 
 ## Backend Requirements
 

@@ -215,7 +215,7 @@ export function AddResourceModal({ onClose, onSuccess, moduleId }: AddResourceMo
 
                                                         {user.avatarFileId ? (
                                                             <img
-                                                                src={`http://localhost:8080/api/users/avatar/${user.avatarFileId}`}
+                                                                src={`http://35.181.154.39:8080/api/users/avatar/${user.avatarFileId}`}
                                                                 alt={user.fullName || user.email}
                                                                 className="w-10 h-10 rounded-full object-cover"
                                                             />

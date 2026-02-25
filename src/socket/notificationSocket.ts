@@ -7,7 +7,7 @@ export function connectNotificationSocket(onMessage: (data: any) => void) {
   if (client?.active) return;
 
   client = new Client({
-    webSocketFactory: () => new SockJS("http://localhost:8080/ws"),
+    webSocketFactory: () => new SockJS("http://35.181.154.39:8080/ws"),
     reconnectDelay: 5000,
     onConnect: () => {
       client!.subscribe("/user/queue/notifications", (msg) => {

@@ -119,7 +119,7 @@ export function MembersPanel({ project, sprints, onMemberUpdate }: MembersPanelP
               <div className="flex items-start gap-4">
                 <Avatar
                 
-                  src={user.avatarFileId ? `http://localhost:8080/api/users/avatar/${user.avatarFileId}` : `https://ui-avatars.com/api/?name=${user.fullName || user.email}&background=random`}
+                  src={user.avatarFileId ? `http://35.181.154.39:8080/api/users/avatar/${user.avatarFileId}` : `https://ui-avatars.com/api/?name=${user.fullName || user.email}&background=random`}
                   size="large"
                   
                 />
@@ -176,7 +176,7 @@ export function MembersPanel({ project, sprints, onMemberUpdate }: MembersPanelP
                   onClick={() => handleAddMember(user.id)}
                 >
                   <Avatar
-                    src={user.avatarFileId ? `http://localhost:8080/api/users/avatar/${user.avatarFileId}` : `https://ui-avatars.com/api/?name=${user.fullName || user.email}&background=random`}
+                    src={user.avatarFileId ? `http://35.181.154.39:8080/api/users/avatar/${user.avatarFileId}` : `https://ui-avatars.com/api/?name=${user.fullName || user.email}&background=random`}
                     size="medium"
                   />
                   <div className="flex-1 min-w-0">
