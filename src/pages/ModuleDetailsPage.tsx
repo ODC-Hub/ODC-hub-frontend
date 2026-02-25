@@ -32,7 +32,7 @@ export default function ModuleDetailsPage() {
   const [typeFilter, setTypeFilter] = useState("all");
 
   useEffect(() => {
-    fetch(`http://35.181.154.39:8080/api/modules/${moduleId}/recommendations`)
+    fetch(`http://13.39.80.27:8080/api/modules/${moduleId}/recommendations`)
       .then((res) => res.json())
       .then((data) => {
         setResources(data);

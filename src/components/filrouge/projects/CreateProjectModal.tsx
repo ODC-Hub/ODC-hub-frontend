@@ -149,7 +149,7 @@ export function CreateProjectModal({ open, onOpenChange, onProjectCreated }: Cre
                                         {/* Avatar Logic */}
                                         {u.avatarFileId ? (
                                             <img
-                                                src={`http://35.181.154.39:8080/api/users/avatar/${u.avatarFileId}`}
+                                                src={`http://13.39.80.27:8080/api/users/avatar/${u.avatarFileId}`}
                                                 alt={u.fullName}
                                                 className="w-8 h-8 rounded-full object-cover border border-gray-200 dark:border-gray-600"
                                                 onError={(e) => {

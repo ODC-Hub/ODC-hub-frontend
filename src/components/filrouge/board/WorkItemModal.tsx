@@ -211,7 +211,7 @@ export function WorkItemModal({ workItem, onClose, onSave, mode, initialStatus =
                   <label htmlFor={`member-${member.id}`} className="flex items-center gap-2 cursor-pointer flex-1">
                     {member.avatarFileId ? (
                       <img
-                        src={`http://35.181.154.39:8080/api/users/avatar/${member.avatarFileId}`}
+                        src={`http://13.39.80.27:8080/api/users/avatar/${member.avatarFileId}`}
                         alt=""
                         className="w-6 h-6 rounded-full object-cover"
                       />

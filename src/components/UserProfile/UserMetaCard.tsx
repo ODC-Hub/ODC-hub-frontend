@@ -80,7 +80,7 @@ export default function UserMetaCard() {
   const avatarSrc =
     avatarPreview ||
     (profile.avatarFileId
-      ? `http://35.181.154.39:8080/api/users/avatar/${profile.avatarFileId}?v=${profile.updatedAt}`
+      ? `http://13.39.80.27:8080/api/users/avatar/${profile.avatarFileId}?v=${profile.updatedAt}`
       : "/images/user/avatar-placeholder.png");
 
 
